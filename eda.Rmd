@@ -17,8 +17,15 @@ library(tidyverse)
 
 
 ```{r}
-read.csv("erosion.csv")
+erosion<-read.csv("erosion.csv")
 ```
+
+```{r}
+sel<-erosion%>%
+  select(Bluff,RR..m.yr.,Wave.Height.for.NNE.wind.15.m.s..m.,Max.Wave.Height..m.)%>%
+  slice(-c(3, 11, 14, 32))
+```
+
 ```{r}
 
 ```
