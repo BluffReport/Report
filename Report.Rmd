@@ -1,0 +1,73 @@
+---
+title: "Report"
+author: "Maysen Pagan"
+date: "2023-11-13"
+output: pdf_document
+---
+
+```{r}
+#libraries
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(ggplot2))
+library(philentropy)
+library(cluster)
+library(pheatmap)
+library(ggpubr)
+```
+
+```{r}
+#loading and cleaning data
+data <- read.csv("erosion_vulnerability.csv")
+colnames(data) <- c("bluff", "orientation", "rr", "vulnerability", "wave.height", "max.wave.height", "mud.comp", "base.el", "bluff.el", "seawall")
+#remove rows/bluffs with no erosion rate data
+data <- data %>% drop_na()
+```
+
+```{r}
+#remove vulnerability for our analysis
+bluffs <- data[,-4]
+#scale numeric columns
+bluffs[,2:8] <- scale(bluffs[,2:8])
+```
+
+```{r}
+#heatmap
+gower_samples <- as.dist(as.matrix(daisy(bluffs[,2:9], metric = "gower")))
+gower_features <- as.dist(as.matrix(daisy(t(bluffs[,2:9]), metric = "gower")))
+
+pheatmap(bluffs[,2:9], 
+                    display_numbers = TRUE, 
+                    clustering_distance_rows=gower_samples,
+                    clustering_distance_cols=gower_features,
+                    angle_col = 3,
+                    fontsize = 6,
+                    cellheight = 5.6,
+                    cellwidth = 13.5
+                    )
+```
+
+```{r}
+#multidimensional scaling
+mds <- gower_samples %>% 
+  cmdscale() %>%
+  as_tibble()
+
+mds <- as.data.frame(mds)
+
+colnames(mds) <- c("Dimension 1", "Dimension 2")
+ggscatter(mds, x = "Dimension 1", y = "Dimension 2", 
+          #label = rownames(mds),
+          size = 1,
+          repel = TRUE, 
+          title = "Multidimensional Scaling Plot") +
+  theme_bw() +
+  theme(axis.title = element_text(size = 14),
+        plot.title = element_text(size = 16))
+
+
+```
+
+
+
+
