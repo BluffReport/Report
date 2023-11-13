@@ -1,0 +1,38 @@
+---
+title: "Sarah Project"
+author: "Chang Shi(Steven)"
+date: "2023-11-06"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+erosion <- read.csv("erosion_vulnerability.csv")
+erosion_data <- na.omit(erosion, cols = "RR (m/yr)")
+names(erosion_data)
+```
+
+
+```{r}         
+library(ggplot2)
+
+
+ggplot(erosion_data, aes(x = Bluff, y = Mud...., color = RR..m.yr.)) +
+  geom_point() +
+  labs(title = 'Relationship between Bluff, Mud %, and RR',
+       x = 'Bluff',
+       y = 'Mud (%)',
+       color = 'RR (m/yr)') +
+  theme_minimal() +
+  theme(text = element_text(size = 14, face = "bold"),
+        axis.title = element_text(size = 16, face = "bold"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 12, face = "bold"),
+        axis.text.y = element_text(size = 12, face = "bold"),
+        legend.title = element_text(size = 14, face = "bold"),
+        legend.text = element_text(size = 12, face = "bold"),
+        legend.position = 'right') +
+  scale_color_gradient(low = 'lightblue', high = 'darkblue')
+```
