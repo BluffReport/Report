@@ -26,7 +26,26 @@ sel<-erosion%>%
   slice(-c(3, 11, 14, 32))
 ```
 
-```{r}
 
+```{r}
+eda <- read.csv("report.csv")
+
+ggplot(eda, aes(x = MaxWave, y = RR)) +
+  geom_point() +
+  geom_smooth(method = "loess", se = FALSE) +  # Adds a LOESS curve (local polynomial regression fitting)
+  labs(title = "Scatter Plot of RR vs Max Wave Height with Non-linear Fitted Curve",
+       x = "Max Wave Height(m)",
+       y = "RR(m/yr)") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(eda, aes(x = WaveHeight15, y = RR)) +
+  geom_point() +
+   geom_smooth(method = "loess", se = FALSE) + 
+  labs(title = "Scatter Plot of RR vs Wave Height for NNE wind 15 m/s",
+       x = "Wave Height for NNE wind 15 m/s (m)",
+       y = "RR(m/yr)") +
+  theme_minimal()
 ```
 
