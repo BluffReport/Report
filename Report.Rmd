@@ -1,11 +1,12 @@
 ---
-title: "Report"
-author: "Maysen Pagan"
-date: "2023-11-13"
+title: "**Erosion Susceptibility of Boston Harbor Bluffs**"
+author:
+  - Teaching Fellow - Minh Thu Bui
+  - Supervisor - Professor Masanao Yajima
+  - Yingmai Chen, Maysen Pagan, Chang Shi, Yan Wang
 output: pdf_document
 ---
-
-```{r}
+```{r, echo = FALSE}
 #libraries
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(tidyr))
@@ -16,7 +17,14 @@ library(pheatmap)
 library(ggpubr)
 ```
 
-```{r}
+# Project Background
+
+# Objectives
+
+# Exploratory Data Analysis
+
+## Data Cleaning and Organizing 
+```{r, echo = FALSE}
 #loading and cleaning data
 data <- read.csv("erosion_vulnerability.csv")
 colnames(data) <- c("bluff", "orientation", "rr", "vulnerability", "wave.height", "max.wave.height", "mud.comp", "base.el", "bluff.el", "seawall")
@@ -24,14 +32,37 @@ colnames(data) <- c("bluff", "orientation", "rr", "vulnerability", "wave.height"
 data <- data %>% drop_na()
 ```
 
-```{r}
+```{r, echo = FALSE}
 #remove vulnerability for our analysis
 bluffs <- data[,-4]
 #scale numeric columns
 bluffs[,2:8] <- scale(bluffs[,2:8])
 ```
 
-```{r}
+## Data Exploration
+
+```{r, echo = FALSE}
+data %>% ggplot(aes(orientation, rr, col = as.factor(seawall))) + geom_point(alpha=0.5) +
+  labs(x = "Degree Orientation",
+       y = "Retreat Rate (m/yr)", 
+       title = "Orientation vs. Erosion Rates") +
+  #theme_bw() +
+  theme(axis.title = element_text(size = 14),
+        axis.text = element_text(size = 12), 
+        plot.title = element_text(size = 16),
+        legend.text = element_text(size = 12)
+        ) + 
+  scale_color_manual(values = c("#587090", "#ff6380"),
+                    name = "Seawall Presence") +
+  coord_polar() +
+  scale_x_continuous(limits = c(0,360),
+                     breaks = seq(0, 360, by = 45),
+                     minor_breaks = seq(0, 360, by = 15))
+```
+
+# Models and Analysis
+
+```{r, echo = FALSE}
 #heatmap
 gower_samples <- as.dist(as.matrix(daisy(bluffs[,2:9], metric = "gower")))
 gower_features <- as.dist(as.matrix(daisy(t(bluffs[,2:9]), metric = "gower")))
@@ -47,7 +78,7 @@ pheatmap(bluffs[,2:9],
                     )
 ```
 
-```{r}
+```{r, echo = FALSE, warning = FALSE}
 #multidimensional scaling
 mds <- gower_samples %>% 
   cmdscale() %>%
@@ -67,6 +98,18 @@ ggscatter(mds, x = "Dimension 1", y = "Dimension 2",
 
 
 ```
+
+# Conclusion
+
+# Appendix
+
+
+
+
+
+
+
+
 
 
 
