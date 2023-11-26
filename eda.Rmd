@@ -20,7 +20,7 @@ library(tidyverse)
 erosion<-read.csv("erosion.csv")
 ```
 
-### linear regression
+### linear regression for all variables
 ```{r}
 library(readr)
 data <- read_csv("erosion.csv")
@@ -62,7 +62,7 @@ qqline(model$residuals)
 
 ```
 
-
+### linear regression for single variable
 
 ```{r}
 data <- read.csv("erosion.csv")  
@@ -142,8 +142,8 @@ qqline(model3$residuals, col = "red")
 ```
 
 ```{r}
-model <- lm(`RR..m.yr.` ~ `BluffEl..m.`, data = data)
-summary(model)
+model4 <- lm(`RR..m.yr.` ~ `BluffEl..m.`, data = data)
+summary(model4)
 ggplot(data, aes(x = `BluffEl..m.`, y = `RR..m.yr.`)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +  
@@ -151,9 +151,23 @@ ggplot(data, aes(x = `BluffEl..m.`, y = `RR..m.yr.`)) +
        x = "BluffEl(m)",
        y = "RR (m/yr)")
 ```
+## check
 ```{r}
-model <- lm(`RR..m.yr.` ~ `Orientation..deg.`, data = data)
-summary(model)
+# Residuals vs Fitted Values Plot
+plot(model4$fitted.values, model4$residuals,
+     xlab = "Fitted Values", ylab = "Residuals",
+     main = "Residuals vs Fitted")
+abline(h = 0, col = "red")
+
+# Normal Q-Q Plot for Residuals
+qqnorm(model4$residuals)
+qqline(model4$residuals, col = "red")
+
+```
+
+```{r}
+model5 <- lm(`RR..m.yr.` ~ `Orientation..deg.`, data = data)
+summary(model5)
 ggplot(data, aes(x = `Orientation..deg.`, y = `RR..m.yr.`)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +  
@@ -161,9 +175,24 @@ ggplot(data, aes(x = `Orientation..deg.`, y = `RR..m.yr.`)) +
        x = "Orientation(deg)",
        y = "RR (m/yr)")
 ```
+## check
 `
 ```{r}
-model <- lm(`RR..m.yr.` ~ `BaseEl..m.`, data = data)
+# Residuals vs Fitted Values Plot
+plot(model5$fitted.values, model5$residuals,
+     xlab = "Fitted Values", ylab = "Residuals",
+     main = "Residuals vs Fitted")
+abline(h = 0, col = "red")
+
+# Normal Q-Q Plot for Residuals
+qqnorm(model5$residuals)
+qqline(model5$residuals, col = "red")
+
+```
+
+
+```{r}
+model6 <- lm(`RR..m.yr.` ~ `BaseEl..m.`, data = data)
 summary(model)
 ggplot(data, aes(x = `BaseEl..m.`, y = `RR..m.yr.`)) +
   geom_point() +
@@ -172,6 +201,21 @@ ggplot(data, aes(x = `BaseEl..m.`, y = `RR..m.yr.`)) +
        x = "BaseEl(m)",
        y = "RR (m/yr)")
 ```
+## check
+
+```{r}
+# Residuals vs Fitted Values Plot
+plot(model6$fitted.values, model6$residuals,
+     xlab = "Fitted Values", ylab = "Residuals",
+     main = "Residuals vs Fitted")
+abline(h = 0, col = "red")
+
+# Normal Q-Q Plot for Residuals
+qqnorm(model6$residuals)
+qqline(model6$residuals, col = "red")
+
+```
+
 
 ### factor analysis
 ```{r}
