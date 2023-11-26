@@ -87,4 +87,29 @@ ggplot(data, aes(x = `BluffEl..m.`, y = `RR..m.yr.`)) +
        x = "BluffEl(m)",
        y = "RR (m/yr)")
 ```
+```{r}
+model <- lm(`RR..m.yr.` ~ `Orientation..deg.`, data = data)
+summary(model)
+ggplot(data, aes(x = `Orientation..deg.`, y = `RR..m.yr.`)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +  
+  labs(title = "Linear Regression of RR (m/yr) on Orientation(deg)",
+       x = "Orientation(deg)",
+       y = "RR (m/yr)")
+```
+`
+```{r}
+model <- lm(`RR..m.yr.` ~ `BaseEl..m.`, data = data)
+summary(model)
+ggplot(data, aes(x = `BaseEl..m.`, y = `RR..m.yr.`)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +  
+  labs(title = "Linear Regression of RR (m/yr) on BaseEl(m)",
+       x = "BaseEl(m)",
+       y = "RR (m/yr)")
+```
+
+```{r}
+
+```
 
