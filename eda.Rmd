@@ -1,7 +1,7 @@
 ---
 title: "eda for erosion"
-author: "Yingmai Chen"
-date: "2023-11-06"
+author: "Yingmai Chen, Yan Wang"
+date: "2023-11-26"
 output: html_document
 ---
 
@@ -76,7 +76,7 @@ ggplot(data, aes(x = `Mud....`, y = `RR..m.yr.`)) +
        y = "RR (m/yr)")
 
 ```
-## check 
+### check 
 
 ```{r}
 # Plotting Residuals vs Fitted Values
@@ -102,7 +102,7 @@ ggplot(data, aes(x = `Wave.Height.for.NNE.wind.15.m.s..m.`, y = `RR..m.yr.`)) +
        x = "Wave Height for NNE wind 15m/s",
        y = "RR (m/yr)")
 ```
-## check 
+### check 
 
 ```{r}
 # Residuals vs Fitted Values Plot
@@ -127,7 +127,7 @@ ggplot(data, aes(x = `Max.Wave.Height..m.`, y = `RR..m.yr.`)) +
        x = "Max Wave Height(m)",
        y = "RR (m/yr)")
 ```
-## check
+### check
 ```{r}
 # Residuals vs Fitted Values Plot
 plot(model3$fitted.values, model3$residuals,
@@ -151,7 +151,7 @@ ggplot(data, aes(x = `BluffEl..m.`, y = `RR..m.yr.`)) +
        x = "BluffEl(m)",
        y = "RR (m/yr)")
 ```
-## check
+### check
 ```{r}
 # Residuals vs Fitted Values Plot
 plot(model4$fitted.values, model4$residuals,
@@ -175,7 +175,7 @@ ggplot(data, aes(x = `Orientation..deg.`, y = `RR..m.yr.`)) +
        x = "Orientation(deg)",
        y = "RR (m/yr)")
 ```
-## check
+### check
 `
 ```{r}
 # Residuals vs Fitted Values Plot
@@ -201,7 +201,7 @@ ggplot(data, aes(x = `BaseEl..m.`, y = `RR..m.yr.`)) +
        x = "BaseEl(m)",
        y = "RR (m/yr)")
 ```
-## check
+### check
 
 ```{r}
 # Residuals vs Fitted Values Plot
@@ -217,7 +217,7 @@ qqline(model6$residuals, col = "red")
 ```
 
 
-### factor analysis
+### factor analysis for nominal variable
 ```{r}
 
 data$Seawall <- factor(data$Seawall)
