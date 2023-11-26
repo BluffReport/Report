@@ -49,44 +49,39 @@ ggplot(eda, aes(x = WaveHeight15, y = RR)) +
   theme_minimal()
 ```
 ```{r}
-# Load necessary libraries
 library(readr)
-
-# Read the data
 data <- read_csv("erosion.csv")
-
-# Sanitizing column names
 names(data) <- gsub(" ", "_", names(data))
 names(data) <- gsub("\\(", "", names(data))
 names(data) <- gsub("\\)", "", names(data))
 names(data) <- gsub("/", "_per_", names(data))
 names(data) <- gsub("%", "percent", names(data))
-
-# Update the name of the target variable if necessary
 if ("RR (m/yr)" %in% names(data)) {
   names(data)[names(data) == "RR (m/yr)"] <- "RR_m_per_yr"
 }
-
-# Selecting predictors and the target variable
 predictors <- setdiff(names(data), c("Bluff", "RR_m_per_yr"))
 target <- "RR_m_per_yr"
-
-# Creating the linear model
 model_formula <- as.formula(paste(target, "~", paste(predictors, collapse = " + ")))
 model <- lm(model_formula, data = data)
-
-# Displaying the summary of the model
 summary(model)
-
-# Calculating predictions and evaluating the model
 predictions <- predict(model, data)
 mse <- mean((data[[target]] - predictions)^2)
 rsquared <- summary(model)$r.squared
-
-# Print MSE and R-squared
 cat("Mean Squared Error (MSE):", mse, "\n")
 cat("R-squared:", rsquared, "\n")
 
+
+```
+```{r}
+data <- read.csv("erosion.csv")  
+model <- lm(`RR..m.yr.` ~ `Mud....`, data = data)
+print(model)
+ggplot(data, aes(x = `Mud....`, y = `RR..m.yr.`)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +  
+  labs(title = "Linear Regression of RR (m/yr) on Mud (%)",
+       x = "Mud (%)",
+       y = "RR (m/yr)")
 
 ```
 
