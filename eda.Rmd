@@ -94,4 +94,18 @@ ggplot(data, aes(x = `Wave.Height.for.NNE.wind.15.m.s..m.`, y = `RR..m.yr.`)) +
        x = "Wave Height for NNE wind 15m/s",
        y = "RR (m/yr)")
 ```
+```{r}
+model <- lm(`RR..m.yr.` ~ `Max.Wave.Height..m.`, data = data)
+summary(model)
+ggplot(data, aes(x = `Max.Wave.Height..m.`, y = `RR..m.yr.`)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +  
+  labs(title = "Linear Regression of RR (m/yr) on Max Wave Height(m)",
+       x = "Max Wave Height(m)",
+       y = "RR (m/yr)")
+```
+
+```{r}
+
+```
 
