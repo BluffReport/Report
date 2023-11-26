@@ -1,8 +1,8 @@
 ---
-title: "eda for erosion"
+title: "linear regression model and factor analysis for erosion"
 author: "Yingmai Chen, Yan Wang"
 date: "2023-11-26"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
