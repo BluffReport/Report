@@ -17,13 +17,18 @@ library(pheatmap)
 library(ggpubr)
 ```
 
-# Project Background
+# Project Background and Objectives
 
-# Objectives
+Sarah Black is a PhD candidate in the Earth and Environment Department at Boston University's Graduate School of Arts and Sciences. The client is interested in the variability of erosion rates of the bluffs located in the Boston Harbor islands. The main objective of this project is to classify 31 Boston Harbor bluffs into different erosion vulnerability categories based on measured variables from the provided data. The client is also interested in which variables have the largest impact on erosion susceptibility. 
+
+The data provided by the client contains 10 columns and 35 rows representing 35 bluffs. The first column contains the names of each bluff. The variables that were used throughout our analysis include the orientation angle, retreat rate in meters per year, wave height and maximum wave height, mud composition, base and bluff elevation in meters, and a binary variable indicating the presence of a seawall. The orientation angle is a measure of the degree at which the bluff faces with north being 0 or 360 degrees and south being 180 degrees. The retreat rate of each bluff was determined using a Digital Shoreline Analysis system which uses satellite imaging to measure how far back the bluff moves. The maximum wave height was measured through simulating different scenarios of wind speed and wind direction, extracting the maximum simulated wave height of all scenarios measured. The wave height variable is the wave height simulated for each bluff for one specific scenario of NNE winds at 15 meters per second, which are typical winds leading up to a winter storm. The mud composition variable is a percentage of each bluff's sediment that contains mud based on samples taken. Not including the names of the bluffs, these 8 variables were used in our analysis to classify bluff erosion susceptibility and determine which variables are associated the most with erosion. 
 
 # Exploratory Data Analysis
 
 ## Data Cleaning and Organizing 
+
+The original data set contained 35 bluffs from the Boston Harbor. However, 4 bluffs contained missing values for the retreat rate variable as the satellite imaging was unclear for those bluffs. These 4 bluffs were removed from the data set and we continued our analysis with 31 bluffs. The data set also included a variable created by the client called `ErosionVulnerability` which declared the susceptibility of each bluff to erosion based on if the bluff's retreat rate was in the lower, middle, or upper third of the sorted retreat rates. This variable was not included in our analysis. The last step in preparing our data for the models was to scale the data. The method used is called Min-Max Scaling so that each feature scales the range of [0,1]. The formula to scale each feature is: $$x^{\text{new}} = \frac{x - \text{min}(x)}{\text{max}(x) - \text{min}(x)}$$ where x is each of the 8 variables.
+
 ```{r, echo = FALSE}
 #loading and cleaning data
 data <- read.csv("erosion_vulnerability.csv")
@@ -35,8 +40,11 @@ data <- data %>% drop_na()
 ```{r, echo = FALSE}
 #remove vulnerability for our analysis
 bluffs <- data[,-4]
-#scale numeric columns
-bluffs[,2:8] <- scale(bluffs[,2:8])
+#standardize numeric columns using min-max scale so variables fall between 0 and 1
+stan <- function(x){
+  return((x-min(x))/(max(x)-min(x)))
+}
+bluffs[,2:8] <- lapply(bluffs[,2:8], stan)
 ```
 
 ## Data Exploration
@@ -67,7 +75,7 @@ It appears that more bluffs that face East and therefore have lower degrees of o
 
 # Models
 
-The method used to group the bluffs based on similar characteristics and compare susceptibility to erosion involves visualizing a multidimensional scaling plot and heatmap with hierarchical clusterings of the bluffs. These clusterings are determined by the "distances" between each bluff.
+The method used to group the bluffs based on similar characteristics and compare susceptibility to erosion involves visualizing a multidimensional scaling plot and heatmap with hierarchical clusterings of the bluffs. These clusters are determined by the "distances" between each bluff.
 
 ## Bluff Distances {#sec-distances}
 
