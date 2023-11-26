@@ -20,6 +20,7 @@ library(tidyverse)
 erosion<-read.csv("erosion.csv")
 ```
 
+### linear regression
 ```{r}
 library(readr)
 data <- read_csv("erosion.csv")
@@ -44,9 +45,28 @@ cat("R-squared:", rsquared, "\n")
 
 
 ```
+## check
+
+```{r}
+#Check Linearity
+plot(data[[target]], predictions, main = "Fitted vs. Actuals",
+     xlab = "Actual Values", ylab = "Predicted Values")
+abline(0, 1)
+
+#Check Homoscedasticity
+plot(model, which = 1)
+
+#Check Normal Distribution of Residuals
+qqnorm(model$residuals)
+qqline(model$residuals)
+
+```
+
+
+
 ```{r}
 data <- read.csv("erosion.csv")  
-model <- lm(`RR..m.yr.` ~ `Mud....`, data = data)
+model1 <- lm(`RR..m.yr.` ~ `Mud....`, data = data)
 summary(model)
 ggplot(data, aes(x = `Mud....`, y = `RR..m.yr.`)) +
   geom_point() +
@@ -56,9 +76,25 @@ ggplot(data, aes(x = `Mud....`, y = `RR..m.yr.`)) +
        y = "RR (m/yr)")
 
 ```
+## check 
+
 ```{r}
-model <- lm(`RR..m.yr.` ~ `Wave.Height.for.NNE.wind.15.m.s..m.`, data = data)
-summary(model)
+# Plotting Residuals vs Fitted Values
+plot(model1$fitted.values, model1$residuals,
+     xlab = "Fitted Values", ylab = "Residuals",
+     main = "Residuals vs Fitted")
+abline(h = 0, col = "red")
+
+# Plotting Normal Q-Q plot for Residuals
+qqnorm(model1$residuals)
+qqline(model1$residuals, col = "red")
+
+```
+
+
+```{r}
+model2 <- lm(`RR..m.yr.` ~ `Wave.Height.for.NNE.wind.15.m.s..m.`, data = data)
+summary(model2)
 ggplot(data, aes(x = `Wave.Height.for.NNE.wind.15.m.s..m.`, y = `RR..m.yr.`)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +  
@@ -66,15 +102,43 @@ ggplot(data, aes(x = `Wave.Height.for.NNE.wind.15.m.s..m.`, y = `RR..m.yr.`)) +
        x = "Wave Height for NNE wind 15m/s",
        y = "RR (m/yr)")
 ```
+## check 
+
 ```{r}
-model <- lm(`RR..m.yr.` ~ `Max.Wave.Height..m.`, data = data)
-summary(model)
+# Residuals vs Fitted Values Plot
+plot(model2$fitted.values, model2$residuals,
+     xlab = "Fitted Values", ylab = "Residuals",
+     main = "Residuals vs Fitted")
+abline(h = 0, col = "red")
+
+# Normal Q-Q Plot for Residuals
+qqnorm(model2$residuals)
+qqline(model2$residuals, col = "red")
+
+```
+
+```{r}
+model3 <- lm(`RR..m.yr.` ~ `Max.Wave.Height..m.`, data = data)
+summary(model3)
 ggplot(data, aes(x = `Max.Wave.Height..m.`, y = `RR..m.yr.`)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +  
   labs(title = "Linear Regression of RR (m/yr) on Max Wave Height(m)",
        x = "Max Wave Height(m)",
        y = "RR (m/yr)")
+```
+## check
+```{r}
+# Residuals vs Fitted Values Plot
+plot(model3$fitted.values, model3$residuals,
+     xlab = "Fitted Values", ylab = "Residuals",
+     main = "Residuals vs Fitted")
+abline(h = 0, col = "red")
+
+# Normal Q-Q Plot for Residuals
+qqnorm(model3$residuals)
+qqline(model3$residuals, col = "red")
+
 ```
 
 ```{r}
@@ -109,7 +173,24 @@ ggplot(data, aes(x = `BaseEl..m.`, y = `RR..m.yr.`)) +
        y = "RR (m/yr)")
 ```
 
+### factor analysis
 ```{r}
 
+data$Seawall <- factor(data$Seawall)
+model <- lm(`RR..m.yr.` ~ Seawall, data = data)
+summary(model)
+ggplot(data, aes(x = Seawall, y = `RR..m.yr.`)) +
+  geom_boxplot() +
+  labs(title = "Effect of Seawall on RR (m/yr)", x = "Seawall", y = "RR (m/yr)")
+
 ```
+```{r}
+data$ErosionVulnerability <- factor(data$ErosionVulnerability)
+model <- lm(`RR..m.yr.` ~ ErosionVulnerability, data = data)
+summary(model)
+ggplot(data, aes(x = ErosionVulnerability, y = `RR..m.yr.`)) +
+  geom_boxplot() +
+  labs(title = "Effect of ErosionVulnerability on RR (m/yr)", x = "ErosionVulnerability", y = "RR (m/yr)")
+```
+
 
