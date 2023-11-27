@@ -52,25 +52,32 @@ cat("R square:", rsquared, "\n")
 ### check
 
 ```{r}
-#Check Linearity
-plot(data[[target]], predictions, main = "Fitted vs. Actuals",
-     xlab = "Actual Values", ylab = "Predicted Values")
-abline(0, 1)
-
-#Check Homoscedasticity
 plot(model1, which = 1)
+ggplot(data, aes_string(x = "fitted(model1)", y = "resid(model1)")) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  xlab("Fitted values") +
+  ylab("Residuals") +
+  ggtitle("Residuals vs Fitted")
+plot(model1, which = 2)
+ggplot(data, aes_string(sample = "rstandard(model1)")) +
+  stat_qq() +
+  stat_qq_line() +
+  ggtitle("Normal Q-Q Plot of Standardized Residuals")
 
-#Check Normal Distribution of Residuals
-qqnorm(model1$residuals)
-qqline(model1$residuals)
-
+fitted_values <- fitted(model1)
+ggplot(data, aes(x = fitted_values, y = data[[target]])) +
+  geom_point() +  # Plot actual vs. fitted values
+  geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dashed") +
+  xlab("Fitted Values") +
+  ylab("Actual Values") +
+  ggtitle("Comparison of Fitted and Actual Values")
 ```
 
 ### linear regression for all variables(MAX waveheight nne 15m/s)
 
 
 ```{r}
-library(readr)
 stan <- function(x) {
   return((x - min(x)) / (max(x) - min(x)))
 }
@@ -102,19 +109,21 @@ cat("R square:", rsquared, "\n")
 ### check
 
 ```{r}
-#Check Linearity
-plot(data[[target]], predictions, main = "Fitted vs. Actuals",
-     xlab = "Actual Values", ylab = "Predicted Values")
-abline(0, 1)
+residuals <- residuals(model2)
+fitted_values <- fitted(model2)
 
-#Check Homoscedasticity
-plot(model2, which = 1)
+ggplot() +
+  geom_point(aes(x = fitted_values, y = residuals)) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  xlab("Fitted Values") +
+  ylab("Residuals") +
+  ggtitle("Residuals vs Fitted")
 
-#Check Normal Distribution of Residuals
-qqnorm(model2$residuals)
-qqline(model2$residuals)
-
+# 2. Q-Q Plot for Normal Distribution of Residuals
+qqnorm(residuals)
+qqline(residuals, col = "red")
 ```
+
 
 
 
