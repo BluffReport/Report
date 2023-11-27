@@ -22,6 +22,9 @@ erosion<-read.csv("erosion.csv")
 
 ```{r}
 library(readr)
+stan <- function(x) {
+  return((x - min(x)) / (max(x) - min(x)))
+}
 data <- read_csv("erosion.csv")
 names(data) <- gsub(" ", "_", names(data))
 names(data) <- gsub("\\(", "", names(data))
@@ -31,16 +34,16 @@ names(data) <- gsub("%", "percent", names(data))
 if ("RR (m/yr)" %in% names(data)) {
   names(data)[names(data) == "RR (m/yr)"] <- "RR_m_per_yr"
 }
+numeric_columns <- sapply(data, is.numeric) & names(data) != "RR_m_per_yr"
+data[numeric_columns] <- lapply(data[numeric_columns], stan)
 predictors <- setdiff(names(data), c("Bluff", "RR_m_per_yr"))
 target <- "RR_m_per_yr"
 model_formula <- as.formula(paste(target, "~", paste(predictors, collapse = " + ")))
 model <- lm(model_formula, data = data)
-summary(model)
+print(summary(model))
 predictions <- predict(model, data)
-mse <- mean((data[[target]] - predictions)^2)
-rsquared <- summary(model)$r.squared
-cat("Mean Squared Error (MSE):", mse, "\n")
-cat("R-squared:", rsquared, "\n")
+
+
 
 
 ```
