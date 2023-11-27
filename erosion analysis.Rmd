@@ -19,6 +19,7 @@ erosion<-read.csv("erosion.csv")
 ```
 
 ### linear regression for all variables
+
 ```{r}
 library(readr)
 data <- read_csv("erosion.csv")
@@ -44,7 +45,7 @@ cat("R-squared:", rsquared, "\n")
 
 ```
 
-### check 
+### check
 
 ```{r}
 #Check Linearity
@@ -62,6 +63,7 @@ qqline(model$residuals)
 ```
 
 ### factor analysis for nominal variable
+
 ```{r}
 data <- read.csv("erosion.csv")
 data$Seawall <- factor(data$Seawall)
