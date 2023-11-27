@@ -18,7 +18,7 @@ library(tidyverse)
 erosion<-read.csv("erosion.csv")
 ```
 
-### linear regression for all variables
+### linear regression for all variables(MAX waveheight)
 
 ```{r}
 library(readr)
@@ -39,12 +39,13 @@ data[numeric_columns] <- lapply(data[numeric_columns], stan)
 predictors <- setdiff(names(data), c("Bluff", "RR_m_per_yr"))
 target <- "RR_m_per_yr"
 model_formula <- as.formula(paste(target, "~", paste(predictors, collapse = " + ")))
-model <- lm(model_formula, data = data)
-print(summary(model))
-predictions <- predict(model, data)
-
-
-
+model1 <- lm(model_formula, data = data)
+print(summary(model1))
+predictions <- predict(model1, data)
+mse <- mean((data[[target]] - predictions)^2)
+rsquared <- summary(model1)$r.squared
+cat("(MSE):", mse, "\n")
+cat("R square:", rsquared, "\n")
 
 ```
 
@@ -57,13 +58,65 @@ plot(data[[target]], predictions, main = "Fitted vs. Actuals",
 abline(0, 1)
 
 #Check Homoscedasticity
-plot(model, which = 1)
+plot(model1, which = 1)
 
 #Check Normal Distribution of Residuals
-qqnorm(model$residuals)
-qqline(model$residuals)
+qqnorm(model1$residuals)
+qqline(model1$residuals)
 
 ```
+
+### linear regression for all variables(MAX waveheight nne 15m/s)
+
+
+```{r}
+library(readr)
+stan <- function(x) {
+  return((x - min(x)) / (max(x) - min(x)))
+}
+data <- read_csv("erosionnne15.csv")
+names(data) <- gsub(" ", "_", names(data))
+names(data) <- gsub("\\(", "", names(data))
+names(data) <- gsub("\\)", "", names(data))
+names(data) <- gsub("/", "_per_", names(data))
+names(data) <- gsub("%", "percent", names(data))
+if ("RR (m/yr)" %in% names(data)) {
+  names(data)[names(data) == "RR (m/yr)"] <- "RR_m_per_yr"
+}
+numeric_columns <- sapply(data, is.numeric) & names(data) != "RR_m_per_yr"
+data[numeric_columns] <- lapply(data[numeric_columns], stan)
+predictors <- setdiff(names(data), c("Bluff", "RR_m_per_yr"))
+target <- "RR_m_per_yr"
+model_formula <- as.formula(paste(target, "~", paste(predictors, collapse = " + ")))
+model2 <- lm(model_formula, data = data)
+print(summary(model2))
+predictions <- predict(model2, data)
+mse <- mean((data[[target]] - predictions)^2)
+rsquared <- summary(model2)$r.squared
+cat("(MSE):", mse, "\n")
+cat("R square:", rsquared, "\n")
+
+```
+
+
+### check
+
+```{r}
+#Check Linearity
+plot(data[[target]], predictions, main = "Fitted vs. Actuals",
+     xlab = "Actual Values", ylab = "Predicted Values")
+abline(0, 1)
+
+#Check Homoscedasticity
+plot(model2, which = 1)
+
+#Check Normal Distribution of Residuals
+qqnorm(model2$residuals)
+qqline(model2$residuals)
+
+```
+
+
 
 ### factor analysis for nominal variable
 
