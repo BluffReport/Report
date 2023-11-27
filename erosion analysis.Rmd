@@ -1,0 +1,74 @@
+---
+title: "analysis for erosion"
+author: "Yingmai Chen,Yan Wang"
+date: "2023-11-27"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+```
+
+```{r}
+erosion<-read.csv("erosion.csv")
+```
+
+### linear regression for all variables
+```{r}
+library(readr)
+data <- read_csv("erosion.csv")
+names(data) <- gsub(" ", "_", names(data))
+names(data) <- gsub("\\(", "", names(data))
+names(data) <- gsub("\\)", "", names(data))
+names(data) <- gsub("/", "_per_", names(data))
+names(data) <- gsub("%", "percent", names(data))
+if ("RR (m/yr)" %in% names(data)) {
+  names(data)[names(data) == "RR (m/yr)"] <- "RR_m_per_yr"
+}
+predictors <- setdiff(names(data), c("Bluff", "RR_m_per_yr"))
+target <- "RR_m_per_yr"
+model_formula <- as.formula(paste(target, "~", paste(predictors, collapse = " + ")))
+model <- lm(model_formula, data = data)
+summary(model)
+predictions <- predict(model, data)
+mse <- mean((data[[target]] - predictions)^2)
+rsquared <- summary(model)$r.squared
+cat("Mean Squared Error (MSE):", mse, "\n")
+cat("R-squared:", rsquared, "\n")
+
+
+```
+
+### check 
+
+```{r}
+#Check Linearity
+plot(data[[target]], predictions, main = "Fitted vs. Actuals",
+     xlab = "Actual Values", ylab = "Predicted Values")
+abline(0, 1)
+
+#Check Homoscedasticity
+plot(model, which = 1)
+
+#Check Normal Distribution of Residuals
+qqnorm(model$residuals)
+qqline(model$residuals)
+
+```
+
+### factor analysis for nominal variable
+```{r}
+data <- read.csv("erosion.csv")
+data$Seawall <- factor(data$Seawall)
+model <- lm(`RR..m.yr.` ~ Seawall, data = data)
+summary(model)
+ggplot(data, aes(x = Seawall, y = `RR..m.yr.`)) +
+  geom_boxplot() +
+  labs(title = "Effect of Seawall on RR (m/yr)", x = "Seawall", y = "RR (m/yr)")
+
+```

@@ -228,13 +228,6 @@ ggplot(data, aes(x = Seawall, y = `RR..m.yr.`)) +
   labs(title = "Effect of Seawall on RR (m/yr)", x = "Seawall", y = "RR (m/yr)")
 
 ```
-```{r}
-data$ErosionVulnerability <- factor(data$ErosionVulnerability)
-model <- lm(`RR..m.yr.` ~ ErosionVulnerability, data = data)
-summary(model)
-ggplot(data, aes(x = ErosionVulnerability, y = `RR..m.yr.`)) +
-  geom_boxplot() +
-  labs(title = "Effect of ErosionVulnerability on RR (m/yr)", x = "ErosionVulnerability", y = "RR (m/yr)")
-```
+
 
 
