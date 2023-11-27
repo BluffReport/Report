@@ -100,9 +100,9 @@ mds <- as.data.frame(mds)
 
 colnames(mds) <- c("Dimension 1", "Dimension 2")
 ggscatter(mds, x = "Dimension 1", y = "Dimension 2", 
-          label = c("Bumpkin 1", "Bumpkin 2", "Gallops 1", "GB 1", "GB 2", "GB 3", "GB 4", 
+          label = c("Bumpkin 1", "Bumpkin 2", "Gallops 1", "GB 1", "GB 2", "GB 3", "GB 4",
                         "Georges 1", "Georges 2", "Long 2", "Long 1", "Long 3", "Lovells 1", "Lovells 2",
-                        "Moon 1", "Moon 2", "Peddocks 1", "Peddocks 2", "Peddocks 3", "Peddocks 4", 
+                        "Moon 1", "Moon 2", "Peddocks 1", "Peddocks 2", "Peddocks 3", "Peddocks 4",
                         "Peddocks 5", "Peddocks 6", "Peddocks 7", "Peddocks 8", "Rainsford 1", "Thompson 1",
                         "Thompson 3", "Thompson 4", "Thompson 2", "Webb 1", "Webb 2"),
           font.label = 9,
@@ -132,11 +132,7 @@ pheatmap(bluffs[,2:9],
                     fontsize = 6,
                     cellheight = 5.6,
                     cellwidth = 13.5,
-         labels_row = c("Bumpkin 1", "Bumpkin 2", "Gallops 1", "GB 1", "GB 2", "GB 3", "GB 4", 
-                        "Georges 1", "Georges 2", "Long 2", "Long 1", "Long 3", "Lovells 1", "Lovells 2",
-                        "Moon 1", "Moon 2", "Peddocks 1", "Peddocks 2", "Peddocks 3", "Peddocks 4", 
-                        "Peddocks 5", "Peddocks 6", "Peddocks 7", "Peddocks 8", "Rainsford 1", "Thompson 1",
-                        "Thompson 3", "Thompson 4", "Thompson 2", "Webb 1", "Webb 2"),
+         labels_row = c("Bumpkin 1", "Bumpkin 2", "Gallops 1", "GB 1", "GB 2", "GB 3", "GB 4", "Georges 1", "Georges 2", "Long 2", "Long 1", "Long 3", "Lovells 1", "Lovells 2", "Moon 1", "Moon 2", "Peddocks 1", "Peddocks 2", "Peddocks 3", "Peddocks 4", "Peddocks 5", "Peddocks 6", "Peddocks 7", "Peddocks 8", "Rainsford 1", "Thompson 1", "Thompson 3", "Thompson 4", "Thompson 2", "Webb 1", "Webb 2"),
          labels_col = c("Orientation", "Retreat Rate", "Wave Height", "Max Wave Height", "Mud Composition",
                         "Base Elevation", "Bluff Elevation", "Seawall")
                     )
