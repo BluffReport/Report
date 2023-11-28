@@ -2,7 +2,9 @@
 title: "analysis for erosion"
 author: "Yingmai Chen,Yan Wang"
 date: "2023-11-27"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -12,6 +14,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(ggplot2)
 library(tidyverse)
+library(readr)
+library(gridExtra)
+library(car)
+library(grid)
 ```
 
 ```{r}
@@ -21,7 +27,6 @@ erosion<-read.csv("erosion.csv")
 ### linear regression for all variables(MAX waveheight)
 
 ```{r}
-library(readr)
 stan <- function(x) {
   return((x - min(x)) / (max(x) - min(x)))
 }
@@ -52,26 +57,32 @@ cat("R square:", rsquared, "\n")
 ### check
 
 ```{r}
-plot(model1, which = 1)
-ggplot(data, aes_string(x = "fitted(model1)", y = "resid(model1)")) +
-  geom_point() +
+
+
+residuals <- residuals(model1)
+fitted_values <- fitted(model1)
+
+ggplot() +
+  geom_point(aes(x = fitted_values, y = residuals)) +
   geom_hline(yintercept = 0, linetype = "dashed") +
-  xlab("Fitted values") +
+  xlab("Fitted Values") +
   ylab("Residuals") +
   ggtitle("Residuals vs Fitted")
-plot(model1, which = 2)
-ggplot(data, aes_string(sample = "rstandard(model1)")) +
-  stat_qq() +
-  stat_qq_line() +
-  ggtitle("Normal Q-Q Plot of Standardized Residuals")
 
-fitted_values <- fitted(model1)
-ggplot(data, aes(x = fitted_values, y = data[[target]])) +
-  geom_point() +  # Plot actual vs. fitted values
-  geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dashed") +
-  xlab("Fitted Values") +
-  ylab("Actual Values") +
-  ggtitle("Comparison of Fitted and Actual Values")
+qqnorm(residuals)
+qqline(residuals, col = "red")
+
+
+data$Predicted_RR <- predictions
+
+
+ggplot(data, aes(x = Predicted_RR, y = RR_m_per_yr)) +
+  geom_point() +  # Add points
+  geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
+  labs(x = "Predicted RR (m/yr)", y = "Actual RR (m/yr)", title = "Actual vs Predicted RR") +
+  theme_minimal()
+
+
 ```
 
 ### linear regression for all variables(MAX waveheight nne 15m/s)
@@ -109,6 +120,7 @@ cat("R square:", rsquared, "\n")
 ### check
 
 ```{r}
+# 1.residual vs fitted
 residuals <- residuals(model2)
 fitted_values <- fitted(model2)
 

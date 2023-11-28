@@ -1,0 +1,461 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={analysis for erosion},
+  pdfauthor={Yingmai Chen,Yan Wang},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{analysis for erosion}
+\author{Yingmai Chen,Yan Wang}
+\date{2023-11-27}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+## v dplyr     1.1.1     v readr     2.1.4
+## v forcats   1.0.0     v stringr   1.5.0
+## v lubridate 1.9.2     v tibble    3.2.1
+## v purrr     1.0.2     v tidyr     1.3.0
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(readr)}
+\FunctionTok{library}\NormalTok{(gridExtra)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 载入程辑包：'gridExtra'
+## 
+## The following object is masked from 'package:dplyr':
+## 
+##     combine
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(car)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 载入需要的程辑包：carData
+## 
+## 载入程辑包：'car'
+## 
+## The following object is masked from 'package:dplyr':
+## 
+##     recode
+## 
+## The following object is masked from 'package:purrr':
+## 
+##     some
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(grid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{erosion}\OtherTok{\textless{}{-}}\FunctionTok{read.csv}\NormalTok{(}\StringTok{"erosion.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{linear-regression-for-all-variablesmax-waveheight}{%
+\subsubsection{linear regression for all variables(MAX
+waveheight)}\label{linear-regression-for-all-variablesmax-waveheight}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{stan }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+  \FunctionTok{return}\NormalTok{((x }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(x)) }\SpecialCharTok{/}\NormalTok{ (}\FunctionTok{max}\NormalTok{(x) }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(x)))}
+\NormalTok{\}}
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"erosion.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 31 Columns: 8
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (1): Bluff
+## dbl (7): Orientation (deg), RR (m/yr), Max Wave Height (m), Mud (%), BaseEl ...
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{names}\NormalTok{(data) }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{"\_"}\NormalTok{, }\FunctionTok{names}\NormalTok{(data))}
+\FunctionTok{names}\NormalTok{(data) }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{("}\NormalTok{, }\StringTok{""}\NormalTok{, }\FunctionTok{names}\NormalTok{(data))}
+\FunctionTok{names}\NormalTok{(data) }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{)"}\NormalTok{, }\StringTok{""}\NormalTok{, }\FunctionTok{names}\NormalTok{(data))}
+\FunctionTok{names}\NormalTok{(data) }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"/"}\NormalTok{, }\StringTok{"\_per\_"}\NormalTok{, }\FunctionTok{names}\NormalTok{(data))}
+\FunctionTok{names}\NormalTok{(data) }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"\%"}\NormalTok{, }\StringTok{"percent"}\NormalTok{, }\FunctionTok{names}\NormalTok{(data))}
+\ControlFlowTok{if}\NormalTok{ (}\StringTok{"RR (m/yr)"} \SpecialCharTok{\%in\%} \FunctionTok{names}\NormalTok{(data)) \{}
+  \FunctionTok{names}\NormalTok{(data)[}\FunctionTok{names}\NormalTok{(data) }\SpecialCharTok{==} \StringTok{"RR (m/yr)"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"RR\_m\_per\_yr"}
+\NormalTok{\}}
+\NormalTok{numeric\_columns }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(data, is.numeric) }\SpecialCharTok{\&} \FunctionTok{names}\NormalTok{(data) }\SpecialCharTok{!=} \StringTok{"RR\_m\_per\_yr"}
+\NormalTok{data[numeric\_columns] }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(data[numeric\_columns], stan)}
+\NormalTok{predictors }\OtherTok{\textless{}{-}} \FunctionTok{setdiff}\NormalTok{(}\FunctionTok{names}\NormalTok{(data), }\FunctionTok{c}\NormalTok{(}\StringTok{"Bluff"}\NormalTok{, }\StringTok{"RR\_m\_per\_yr"}\NormalTok{))}
+\NormalTok{target }\OtherTok{\textless{}{-}} \StringTok{"RR\_m\_per\_yr"}
+\NormalTok{model\_formula }\OtherTok{\textless{}{-}} \FunctionTok{as.formula}\NormalTok{(}\FunctionTok{paste}\NormalTok{(target, }\StringTok{"\textasciitilde{}"}\NormalTok{, }\FunctionTok{paste}\NormalTok{(predictors, }\AttributeTok{collapse =} \StringTok{" + "}\NormalTok{)))}
+\NormalTok{model1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(model\_formula, }\AttributeTok{data =}\NormalTok{ data)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{summary}\NormalTok{(model1))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = model_formula, data = data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.45124 -0.12697 -0.03711  0.09424  0.72960 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(>|t|)   
+## (Intercept)        0.22946    0.16714   1.373  0.18249   
+## Orientation_deg    0.06428    0.16130   0.399  0.69376   
+## Max_Wave_Height_m  0.79835    0.24809   3.218  0.00368 **
+## Mud_percent       -0.21316    0.18391  -1.159  0.25785   
+## BaseEl_m          -0.08859    0.31426  -0.282  0.78043   
+## BluffEl_m         -0.48522    0.22160  -2.190  0.03851 * 
+## Seawall           -0.05905    0.15774  -0.374  0.71143   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.2641 on 24 degrees of freedom
+## Multiple R-squared:  0.478,  Adjusted R-squared:  0.3475 
+## F-statistic: 3.662 on 6 and 24 DF,  p-value: 0.01006
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{predictions }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(model1, data)}
+\NormalTok{mse }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{((data[[target]] }\SpecialCharTok{{-}}\NormalTok{ predictions)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{rsquared }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(model1)}\SpecialCharTok{$}\NormalTok{r.squared}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"(MSE):"}\NormalTok{, mse, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (MSE): 0.05400199
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"R square:"}\NormalTok{, rsquared, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## R square: 0.4779682
+\end{verbatim}
+
+\hypertarget{check}{%
+\subsubsection{check}\label{check}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 1.residual vs fitted}
+\NormalTok{residuals }\OtherTok{\textless{}{-}} \FunctionTok{residuals}\NormalTok{(model1)}
+\NormalTok{fitted\_values }\OtherTok{\textless{}{-}} \FunctionTok{fitted}\NormalTok{(model1)}
+
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ fitted\_values, }\AttributeTok{y =}\NormalTok{ residuals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Fitted Values"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Residuals"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Residuals vs Fitted"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{erosion-analysis_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 2. Q{-}Q Plot for Normal Distribution of Residuals}
+\FunctionTok{qqnorm}\NormalTok{(residuals)}
+\FunctionTok{qqline}\NormalTok{(residuals, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{erosion-analysis_files/figure-latex/unnamed-chunk-4-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 3.actual with fitted}
+\NormalTok{data}\SpecialCharTok{$}\NormalTok{Predicted\_RR }\OtherTok{\textless{}{-}}\NormalTok{ predictions}
+
+
+\FunctionTok{ggplot}\NormalTok{(data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Predicted\_RR, }\AttributeTok{y =}\NormalTok{ RR\_m\_per\_yr)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}  \CommentTok{\# Add points}
+  \FunctionTok{geom\_abline}\NormalTok{(}\AttributeTok{intercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{slope =} \DecValTok{1}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}  \CommentTok{\# Add a 45{-}degree line}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Predicted RR (m/yr)"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Actual RR (m/yr)"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Actual vs Predicted RR"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{erosion-analysis_files/figure-latex/unnamed-chunk-4-3.pdf}
+
+\hypertarget{linear-regression-for-all-variablesmax-waveheight-nne-15ms}{%
+\subsubsection{linear regression for all variables(MAX waveheight nne
+15m/s)}\label{linear-regression-for-all-variablesmax-waveheight-nne-15ms}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{stan }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+  \FunctionTok{return}\NormalTok{((x }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(x)) }\SpecialCharTok{/}\NormalTok{ (}\FunctionTok{max}\NormalTok{(x) }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(x)))}
+\NormalTok{\}}
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"erosionnne15.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 31 Columns: 8
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (1): Bluff
+## dbl (7): Orientation (deg), RR (m/yr), Wave Height for NNE wind 15 m/s (m), ...
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{names}\NormalTok{(data) }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{"\_"}\NormalTok{, }\FunctionTok{names}\NormalTok{(data))}
+\FunctionTok{names}\NormalTok{(data) }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{("}\NormalTok{, }\StringTok{""}\NormalTok{, }\FunctionTok{names}\NormalTok{(data))}
+\FunctionTok{names}\NormalTok{(data) }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{)"}\NormalTok{, }\StringTok{""}\NormalTok{, }\FunctionTok{names}\NormalTok{(data))}
+\FunctionTok{names}\NormalTok{(data) }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"/"}\NormalTok{, }\StringTok{"\_per\_"}\NormalTok{, }\FunctionTok{names}\NormalTok{(data))}
+\FunctionTok{names}\NormalTok{(data) }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"\%"}\NormalTok{, }\StringTok{"percent"}\NormalTok{, }\FunctionTok{names}\NormalTok{(data))}
+\ControlFlowTok{if}\NormalTok{ (}\StringTok{"RR (m/yr)"} \SpecialCharTok{\%in\%} \FunctionTok{names}\NormalTok{(data)) \{}
+  \FunctionTok{names}\NormalTok{(data)[}\FunctionTok{names}\NormalTok{(data) }\SpecialCharTok{==} \StringTok{"RR (m/yr)"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"RR\_m\_per\_yr"}
+\NormalTok{\}}
+\NormalTok{numeric\_columns }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(data, is.numeric) }\SpecialCharTok{\&} \FunctionTok{names}\NormalTok{(data) }\SpecialCharTok{!=} \StringTok{"RR\_m\_per\_yr"}
+\NormalTok{data[numeric\_columns] }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(data[numeric\_columns], stan)}
+\NormalTok{predictors }\OtherTok{\textless{}{-}} \FunctionTok{setdiff}\NormalTok{(}\FunctionTok{names}\NormalTok{(data), }\FunctionTok{c}\NormalTok{(}\StringTok{"Bluff"}\NormalTok{, }\StringTok{"RR\_m\_per\_yr"}\NormalTok{))}
+\NormalTok{target }\OtherTok{\textless{}{-}} \StringTok{"RR\_m\_per\_yr"}
+\NormalTok{model\_formula }\OtherTok{\textless{}{-}} \FunctionTok{as.formula}\NormalTok{(}\FunctionTok{paste}\NormalTok{(target, }\StringTok{"\textasciitilde{}"}\NormalTok{, }\FunctionTok{paste}\NormalTok{(predictors, }\AttributeTok{collapse =} \StringTok{" + "}\NormalTok{)))}
+\NormalTok{model2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(model\_formula, }\AttributeTok{data =}\NormalTok{ data)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{summary}\NormalTok{(model2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = model_formula, data = data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.46536 -0.10867 -0.05099  0.06523  0.56911 
+## 
+## Coefficients:
+##                                       Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                            0.10887    0.15424   0.706 0.487101    
+## Orientation_deg                        0.05753    0.14458   0.398 0.694197    
+## Wave_Height_for_NNE_wind_15_m_per_s_m  1.10008    0.25469   4.319 0.000234 ***
+## Mud_percent                           -0.10007    0.16959  -0.590 0.560675    
+## BaseEl_m                              -0.15821    0.28083  -0.563 0.578423    
+## BluffEl_m                             -0.60463    0.20486  -2.951 0.006962 ** 
+## Seawall                               -0.09229    0.14080  -0.655 0.518401    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.237 on 24 degrees of freedom
+## Multiple R-squared:  0.5796, Adjusted R-squared:  0.4744 
+## F-statistic: 5.514 on 6 and 24 DF,  p-value: 0.001042
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{predictions }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(model2, data)}
+\NormalTok{mse }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{((data[[target]] }\SpecialCharTok{{-}}\NormalTok{ predictions)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{rsquared }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(model2)}\SpecialCharTok{$}\NormalTok{r.squared}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"(MSE):"}\NormalTok{, mse, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (MSE): 0.04349345
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"R square:"}\NormalTok{, rsquared, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## R square: 0.5795532
+\end{verbatim}
+
+\hypertarget{check-1}{%
+\subsubsection{check}\label{check-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 1.residual vs fitted}
+\NormalTok{residuals }\OtherTok{\textless{}{-}} \FunctionTok{residuals}\NormalTok{(model2)}
+\NormalTok{fitted\_values }\OtherTok{\textless{}{-}} \FunctionTok{fitted}\NormalTok{(model2)}
+
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ fitted\_values, }\AttributeTok{y =}\NormalTok{ residuals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Fitted Values"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Residuals"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Residuals vs Fitted"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{erosion-analysis_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 2. Q{-}Q Plot for Normal Distribution of Residuals}
+\FunctionTok{qqnorm}\NormalTok{(residuals)}
+\FunctionTok{qqline}\NormalTok{(residuals, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{erosion-analysis_files/figure-latex/unnamed-chunk-6-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 3.actual with fitted}
+\NormalTok{data}\SpecialCharTok{$}\NormalTok{Predicted\_RR }\OtherTok{\textless{}{-}}\NormalTok{ predictions}
+
+
+\FunctionTok{ggplot}\NormalTok{(data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Predicted\_RR, }\AttributeTok{y =}\NormalTok{ RR\_m\_per\_yr)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}  \CommentTok{\# Add points}
+  \FunctionTok{geom\_abline}\NormalTok{(}\AttributeTok{intercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{slope =} \DecValTok{1}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}  \CommentTok{\# Add a 45{-}degree line}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Predicted RR (m/yr)"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Actual RR (m/yr)"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Actual vs Predicted RR"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{erosion-analysis_files/figure-latex/unnamed-chunk-6-3.pdf}
+
+\end{document}
