@@ -1,0 +1,51 @@
+---
+title: "scatter plot"
+author: "Yingmai Chen"
+date: "2023-11-28"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+data <- read.csv("erosion.csv")
+data1<-read.csv("erosionnne15.csv")
+```
+
+```{r}
+ggplot(data,aes(x=Orientation..deg.,y=RR..m.yr.))+
+  geom_point()
+```
+```{r}
+ggplot(data,aes(x=Max.Wave.Height..m.,y=RR..m.yr.))+
+  geom_point()
+```
+```{r}
+ggplot(data,aes(x=Mud....,y=RR..m.yr.))+
+  geom_point()
+```
+```{r}
+ggplot(data,aes(x=BaseEl..m.,y=RR..m.yr.))+
+  geom_point()
+```
+```{r}
+ggplot(data,aes(x=BluffEl..m.,y=RR..m.yr.))+
+  geom_point()
+```
+```{r}
+data$Seawall <- factor(data$Seawall)
+model <- lm(`RR..m.yr.` ~ Seawall, data = data)
+summary(model)
+ggplot(data, aes(x = Seawall, y = `RR..m.yr.`)) +
+  geom_boxplot() +
+  labs(title = "Effect of Seawall on RR (m/yr)", x = "Seawall", y = "RR (m/yr)")
+```
+```{r}
+ggplot(data1,aes(x=Wave.Height.for.NNE.wind.15.m.s..m.,y=RR..m.yr.))+
+  geom_point()
+```
+

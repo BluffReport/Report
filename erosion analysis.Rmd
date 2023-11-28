@@ -1,10 +1,15 @@
 ---
 title: "analysis for erosion"
 author: "Yingmai Chen,Yan Wang"
-date: "2023-11-27"
+documentclass: ctexart
 output:
-  html_document:
-    df_print: paged
+  pdf_document:
+    toc: yes
+  rticles::ctex:
+    fig_caption: yes
+    number_sections: yes
+    toc: yes
+keywords: R Markdown
 ---
 
 ```{r setup, include=FALSE}
