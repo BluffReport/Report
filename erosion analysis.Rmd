@@ -122,20 +122,20 @@ ggplot() +
 # 2. Q-Q Plot for Normal Distribution of Residuals
 qqnorm(residuals)
 qqline(residuals, col = "red")
-```
 
 
 
+# 3.actual with fitted
+data$Predicted_RR <- predictions
 
-### factor analysis for nominal variable
 
-```{r}
-data <- read.csv("erosion.csv")
-data$Seawall <- factor(data$Seawall)
-model <- lm(`RR..m.yr.` ~ Seawall, data = data)
-summary(model)
-ggplot(data, aes(x = Seawall, y = `RR..m.yr.`)) +
-  geom_boxplot() +
-  labs(title = "Effect of Seawall on RR (m/yr)", x = "Seawall", y = "RR (m/yr)")
+ggplot(data, aes(x = Predicted_RR, y = RR_m_per_yr)) +
+  geom_point() +  # Add points
+  geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") +  # Add a 45-degree line
+  labs(x = "Predicted RR (m/yr)", y = "Actual RR (m/yr)", title = "Actual vs Predicted RR") +
+  theme_minimal()
 
 ```
+
+
+
