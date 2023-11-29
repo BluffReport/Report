@@ -1,0 +1,65 @@
+---
+title: "report for erosion"
+author: "Yingmai Chen"
+date: "2023-11-29"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(readr)
+library(gridExtra)
+library(car)
+library(grid)
+library(stats)
+```
+
+## read data and normalize the data
+```{r}
+stan <- function(x) {
+  return((x - min(x)) / (max(x) - min(x)))
+}
+data1 <- read_csv("erosion.csv")# data include max wave height
+names(data1) <- gsub(" ", "_", names(data1))
+names(data1) <- gsub("\\(", "", names(data1))
+names(data1) <- gsub("\\)", "", names(data1))
+names(data1) <- gsub("/", "_per_", names(data1))
+names(data1) <- gsub("%", "percent", names(data1))
+if ("RR (m/yr)" %in% names(data1)) {
+  names(data1)[names(data1) == "RR (m/yr)"] <- "RR_m_per_yr"
+}
+
+numeric_columns <- sapply(data1, is.numeric) & !names(data1) %in% c("Bluff", "RR_m_per_yr")
+data1[numeric_columns] <- lapply(data1[numeric_columns], stan)
+data1$RR_m_per_yr <- stan(data1$RR_m_per_yr)
+```
+```{r}
+data2 <- read_csv("erosionnne15.csv")# data include NNE 15 m/s of max waveheight
+names(data2) <- gsub(" ", "_", names(data2))
+names(data2) <- gsub("\\(", "", names(data2))
+names(data2) <- gsub("\\)", "", names(data2))
+names(data2) <- gsub("/", "_per_", names(data2))
+names(data2) <- gsub("%", "percent", names(data2))
+if ("RR (m/yr)" %in% names(data2)) {
+  names(data2)[names(data2) == "RR (m/yr)"] <- "RR_m_per_yr"
+}
+numeric_columns <- sapply(data2, is.numeric) & !names(data2) %in% c("Bluff", "RR_m_per_yr")
+data2[numeric_columns] <- lapply(data2[numeric_columns], stan)
+data2$RR_m_per_yr <- stan(data2$RR_m_per_yr)
+
+```
+
+## Scatterplot for each variable and boxplot for categorical variable seaWall
+
+
+## correlated data
+
+
+## linear regression 
+
+
