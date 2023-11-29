@@ -60,7 +60,7 @@ data2$RR_m_per_yr <- stan(data2$RR_m_per_yr)
 ## correlated data
 
 
-## linear regression for data1(with erosion.csv)
+## linear regression for data1(with max wave height)
 
 ```{r}
 target <- "RR_m_per_yr"
@@ -75,6 +75,8 @@ rsquared <- summary(model1)$r.squared
 cat("(MSE):", mse, "\n")
 cat("R square:", rsquared, "\n")
 ```
+## linear regression for data2(with max wave heigh on NNE 15m/s)
+
 ```{r}
 target <- "RR_m_per_yr"
 predictors <- setdiff(names(data2), c("Bluff", target))
