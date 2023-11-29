@@ -60,6 +60,11 @@ data2$RR_m_per_yr <- stan(data2$RR_m_per_yr)
 ## correlated data
 
 
-## linear regression 
+## linear regression for data1(with erosion.csv)
+
+```{r}
+
+```
+
 
 
