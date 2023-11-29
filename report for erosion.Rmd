@@ -68,6 +68,26 @@ predictors <- setdiff(names(data1), c("Bluff", target))
 model_formula <- as.formula(paste(target, "~", paste(predictors, collapse = " + ")))
 
 model1 <- lm(model_formula, data = data1)
+print(summary(model1))
+predictions <- predict(model1, data1)
+mse <- mean((data1[[target]] - predictions)^2)
+rsquared <- summary(model1)$r.squared
+cat("(MSE):", mse, "\n")
+cat("R square:", rsquared, "\n")
+```
+```{r}
+target <- "RR_m_per_yr"
+predictors <- setdiff(names(data2), c("Bluff", target))
+model_formula <- as.formula(paste(target, "~", paste(predictors, collapse = " + ")))
+
+model2 <- lm(model_formula, data = data2)
+print(summary(model2))
+predictions <- predict(model2, data2)
+mse <- mean((data2[[target]] - predictions)^2)
+rsquared <- summary(model2)$r.squared
+cat("(MSE):", mse, "\n")
+cat("R square:", rsquared, "\n")
+
 ```
 
 
