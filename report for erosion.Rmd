@@ -63,7 +63,11 @@ data2$RR_m_per_yr <- stan(data2$RR_m_per_yr)
 ## linear regression for data1(with erosion.csv)
 
 ```{r}
+target <- "RR_m_per_yr"
+predictors <- setdiff(names(data1), c("Bluff", target))
+model_formula <- as.formula(paste(target, "~", paste(predictors, collapse = " + ")))
 
+model1 <- lm(model_formula, data = data1)
 ```
 
 
