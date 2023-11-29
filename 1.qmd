@@ -1,15 +1,8 @@
 ---
-title: "analysis for erosion"
+title: "report for erosion"
+format: pdf
+editor: visual
 author: "Yingmai Chen"
-documentclass: ctexart
-output:
-  pdf_document:
-    toc: yes
-  rticles::ctex:
-    fig_caption: yes
-    number_sections: yes
-    toc: yes
-keywords: R Markdown
 ---
 
 ```{r setup, include=FALSE}
@@ -82,6 +75,7 @@ rsquared <- summary(model1)$r.squared
 cat("(MSE):", mse, "\n")
 cat("R square:", rsquared, "\n")
 ```
+
 ## linear regression for data2(with max wave heigh on NNE 15m/s)
 
 ```{r}
@@ -98,6 +92,3 @@ cat("(MSE):", mse, "\n")
 cat("R square:", rsquared, "\n")
 
 ```
-
-
-
