@@ -17,6 +17,7 @@ library(gridExtra)
 library(car)
 library(grid)
 library(stats)
+library(ggcorrplot)
 ```
 
 ## read data and normalize the data
@@ -55,9 +56,68 @@ data2$RR_m_per_yr <- stan(data2$RR_m_per_yr)
 ```
 
 ## Scatterplot for each variable and boxplot for categorical variable seaWall
+```{r}
+ggplot(data1,aes(x=Orientation_deg,y=RR_m_per_yr))+
+  geom_point()
+```
+
+```{r}
+ggplot(data1,aes(x=Max_Wave_Height_m,y=RR_m_per_yr))+
+  geom_point()
+```
+```{r}
+ggplot(data1,aes(x=Mud_percent,y=RR_m_per_yr))+
+  geom_point()
+```
+```{r}
+ggplot(data1,aes(x=BaseEl_m,y=RR_m_per_yr))+
+  geom_point()
+```
+
+```{r}
+ggplot(data1,aes(x=BluffEl_m,y=RR_m_per_yr))+
+  geom_point()
+```
+
+```{r}
+ggplot(data2,aes(x=Wave_Height_for_NNE_wind_15_m_per_s_m,y=RR_m_per_yr))+
+  geom_point()
+```
+
+```{r}
+data1$Seawall <- factor(data1$Seawall)
+model <- lm(`RR_m_per_yr` ~ Seawall, data = data1)
+summary(model)
+
+ggplot(data1, aes(x = Seawall, y = `RR_m_per_yr`)) +
+  geom_boxplot() +
+  stat_summary(fun = mean, geom = "point", shape = 20, size = 3, color = "blue")+
+  stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 2)), vjust = -1) +
+  labs(title = "Effect of Seawall on RR (m/yr)", x = "Seawall", y = "RR (m/yr)")
+```
 
 
-## correlated data
+
+## Correlation Matrix of data1(with max wave height)
+```{r}
+correlationdata1 <- read_csv("correlationdata1.csv")
+correlation_matrix1 <- cor(correlationdata1)
+print(correlation_matrix1)
+```
+```{r}
+ggcorrplot(correlation_matrix1)
+```
+
+## Correlation Matrix of data2(with max wave height on NNE 15m/s)
+```{r}
+correlationdata2 <- read_csv("correlationdata2.csv")
+correlation_matrix2 <- cor(correlationdata2)
+print(correlation_matrix2)
+```
+
+```{r}
+ggcorrplot(correlation_matrix2)
+```
 
 
 ## linear regression for data1(with max wave height)
