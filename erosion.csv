@@ -1,4 +1,4 @@
-Bluff,Orientation (deg),RR (m/yr),Max Wave Height (m),Mud (%),BaseEl (m),BluffEl (m),Seawall
+Bluff,Orientation,RR (m/yr),MaxWaveHeight,Mud (%),BaseEl (m),BluffEl (m),Seawall
 Bumpkin 1,40,0.04,0.794527173,5.5,2.429,7.096,0
 Bumpkin 2,285,0.11,0.965691626,5.5,2.287,10.185,0
 Gallops 1,25,0.2,1.525500655,3,4.513,19.039,1

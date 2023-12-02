@@ -1,0 +1,54 @@
+---
+title: "polar plot"
+author: "Yingmai Chen"
+format: pdf
+editor: visual
+---
+### polar plot for orientation deg and max wave height(add a NNE line)
+```{r}
+
+library(ggplot2)
+library(ggrepel)
+
+data <- read.csv('erosion.csv')
+
+data$Orientation<- with(data, `Orientation` * pi / 180)
+
+
+nn_direction <- 22.5 * pi / 180
+
+
+p <- ggplot(data, aes(x = Orientation, y = `MaxWaveHeight`, label = Bluff)) +
+  geom_point() + 
+  geom_text_repel(size = 3, segment.size = 0.2, direction = 'y') + 
+  coord_polar() + 
+  geom_vline(xintercept = nn_direction, linetype = "dashed", color = "red") +
+  scale_x_continuous(breaks = c(0, pi/2, pi, 3*pi/2, 2*pi), 
+                     labels = c('N', 'E', 'S', 'W', 'N')) + 
+  theme_minimal() +
+  labs(title = "Polar Plot of Orientation Degrees with Max Wave Height ")
+print(p)
+
+```
+
+```{r}
+library(ggplot2)
+library(ggrepel)
+
+data <- read.csv('erosion.csv')
+data$Orientation <- with(data, `Orientation` * pi / 180)
+nn_direction <- 22.5 * pi / 180
+
+p <- ggplot(data, aes(x = Orientation, y = `MaxWaveHeight`, label = Bluff)) +
+  geom_point(size = 2) + 
+  geom_text_repel(size = 3, segment.size = 0.2, direction = 'y', max.overlaps = Inf) + 
+  coord_polar() + 
+  geom_vline(xintercept = nn_direction, linetype = "dashed", color = "red") +
+  scale_x_continuous(breaks = c(0, pi/2, pi, 3*pi/2, 2*pi), labels = c('N', 'E', 'S', 'W', 'N')) + 
+  theme_minimal() +
+  labs(title = "Polar Plot of Orientation Degrees with Max Wave Height ")
+print(p)
+
+```
+
+
