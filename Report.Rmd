@@ -104,7 +104,7 @@ ggplot(data, aes(x = `wave.height`, y = `rr`, color = as.factor(seawall))) +
 ```
 
 
-From the plot, we can observe a trend indicated by the fitted red line, which suggests a positive correlation between wave height and retreat rate—higher wave heights are associated with higher rates of retreat. There is a slight indication that points with a seawall (1) tend to be spread across the lower half of the retreat rate range, suggesting they might be effective in reducing erosion to some degree.
+From the plot, we can observe a trend indicated by the fitted red line, which suggests a positive correlation between wave height and retreat rate—higher wave heights are associated with higher rates of retreat.
 
 # Models
 
