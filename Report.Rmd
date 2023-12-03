@@ -79,7 +79,7 @@ We begin the data exploration by observing the relationship and patterns between
 
 
 ggplot(data, aes(x = orientation, y = rr, color = as.factor(seawall))) +
-  geom_point(size = 3, alpha = 0.6) +
+  geom_point(size = 4, alpha = 0.6) +
   scale_color_manual(values = c("#FF6666", "#66B2FF"), name = "Seawall") +
   labs(x = "Degree Orientation (°)",
        y = "Retreat rate(m/yr)",
