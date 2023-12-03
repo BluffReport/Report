@@ -82,7 +82,7 @@ ggplot(data, aes(x = orientation, y = rr, color = as.factor(seawall))) +
   geom_point(size = 3, alpha = 0.6) +
   scale_color_manual(values = c("#FF6666", "#66B2FF"), name = "Seawall") +
   labs(x = "Degree Orientation (°)",
-       y = "Retreat rate",
+       y = "Retreat rate(m/yr)",
        title = "Retreat rate from Orientation angle") +
   theme_minimal(base_size = 12) +
   theme(axis.title = element_text(size = 14, face = "bold"),
