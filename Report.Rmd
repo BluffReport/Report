@@ -25,8 +25,6 @@ Sarah Black is a PhD candidate in the Earth and Environment Department at Boston
 
 The data provided by the client contains 10 columns and 35 rows representing 35 bluffs. The first column contains the names of each bluff. The variables that were used throughout our analysis include the orientation angle, retreat rate in meters per year, wave height and maximum wave height, mud composition, base and bluff elevation in meters, and a binary variable indicating the presence of a seawall. The orientation angle is a measure of the degree at which the bluff faces with north being 0 or 360 degrees and south being 180 degrees. The retreat rate of each bluff was determined using a Digital Shoreline Analysis system which uses satellite imaging to measure how far back the bluff moves. The maximum wave height was measured through simulating different scenarios of wind speed and wind direction, extracting the maximum simulated wave height of all scenarios measured. The wave height variable is the wave height simulated for each bluff for one specific scenario of NNE winds at 15 meters per second, which are typical winds leading up to a winter storm. The mud composition variable is a percentage of each bluff's sediment that contains mud based on samples taken. Not including the names of the bluffs, these 8 variables were used in our analysis to classify bluff erosion susceptibility and determine which variables are associated the most with erosion. 
 
-# Exploratory Data Analysis
-
 ## Data Cleaning and Organizing 
 
 The original data set contained 35 bluffs from the Boston Harbor. However, 4 bluffs contained missing values for the retreat rate variable as the satellite imaging was unclear for those bluffs. These 4 bluffs were removed from the data set and we continued our analysis with 31 bluffs. The data set also included a variable created by the client called `ErosionVulnerability` which declared the susceptibility of each bluff to erosion based on if the bluff's retreat rate was in the lower, middle, or upper third of the sorted retreat rates. This variable was not included in our analysis. The last step in preparing our data for the models was to scale the data. The method used is called Min-Max Scaling so that each feature scales the range of [0,1]. The formula to scale each feature is: $$x^{\text{new}} = \frac{x - \text{min}(x)}{\text{max}(x) - \text{min}(x)}$$ where x is each of the 8 variables.
@@ -48,6 +46,29 @@ stan <- function(x){
 }
 bluffs[,2:8] <- lapply(bluffs[,2:8], stan)
 ```
+
+# Exploratory Data Analysis
+
+```{r}
+
+
+ggplot(data, aes(x = `wave.height`, y = `rr`, color = as.factor(seawall))) +
+  geom_point(size = 3, alpha = 0.6) +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  scale_color_manual(values = c("#FF6666", "#66B2FF"), name = "Seawall") +
+  labs(title = "Scatter Plot of Wave Height for NNE wind 15 m/s vs. Retreat Rate",
+       x = "Wave Height for NNE wind 15 m/s (m)", 
+       y = "Retreat Rate (m/yr)") +
+  theme_minimal() +
+  theme(legend.title = element_text(size = 12),
+        legend.text = element_text(size = 10))
+
+
+```
+
+It appears that more bluffs that face East and therefore have lower degrees of orientation also have a seawall present. This intuitively makes sense as those bluffs with lower degrees of orientation face the mouth of the harbor and are more likely to have a seawall with the intentions of preventing erosion. We can also see that those bluffs with orientations less than 180 degrees tend to have higher retreat rates than those bluffs with orientations between 180 and 360 degrees.
+
+
 
 ## Data Exploration
 
@@ -86,25 +107,6 @@ ggplot(data, aes(x = orientation, y = rr, color = as.factor(seawall))) +
 
 ```
 
-
-It appears that more bluffs that face East and therefore have lower degrees of orientation also have a seawall present. This intuitively makes sense as those bluffs with lower degrees of orientation face the mouth of the harbor and are more likely to have a seawall with the intentions of preventing erosion. We can also see that those bluffs with orientations less than 180 degrees tend to have higher retreat rates than those bluffs with orientations between 180 and 360 degrees.
-
-```{r}
-
-
-ggplot(data, aes(x = `wave.height`, y = `rr`, color = as.factor(seawall))) +
-  geom_point(size = 3, alpha = 0.6) +
-  geom_smooth(method = "lm", color = "red", se = FALSE) +
-  scale_color_manual(values = c("#FF6666", "#66B2FF"), name = "Seawall") +
-  labs(title = "Scatter Plot of Wave Height for NNE wind 15 m/s vs. Retreat Rate",
-       x = "Wave Height for NNE wind 15 m/s (m)", 
-       y = "Retreat Rate (m/yr)") +
-  theme_minimal() +
-  theme(legend.title = element_text(size = 12),
-        legend.text = element_text(size = 10))
-
-
-```
 From the plot, we can observe a trend indicated by the fitted red line, which suggests a positive correlation between wave height and retreat rate—higher wave heights are associated with higher rates of retreat.There is a slight indication that points with a seawall (1) tend to be spread across the lower half of the retreat rate range, suggesting they might be effective in reducing erosion to some degree.
 
 # Models
