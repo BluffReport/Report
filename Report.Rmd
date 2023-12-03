@@ -4,7 +4,9 @@ author:
   - Teaching Fellow - Minh Thu Bui
   - Supervisor - Professor Masanao Yajima
   - Yingmai Chen, Maysen Pagan, Chang Shi, Yan Wang
-output: pdf_document
+output: 
+  pdf_document:
+    number_sections: true
 ---
 ```{r, echo = FALSE}
 #libraries
@@ -91,8 +93,8 @@ Once we have the pairwise distances between bluffs from the data, multidimension
 
 ```{r mds-plot, echo = FALSE, warning = FALSE, fig.cap="Multidimensional scaling plot of 31 bluffs."}
 #multidimensional scaling
-gower_samples <- as.dist(as.matrix(daisy(bluffs[,2:9], metric = "gower")))
-gower_features <- as.dist(as.matrix(daisy(t(bluffs[,2:9]), metric = "gower")))
+gower_samples <- as.dist(as.matrix(daisy(bluffs[,c(2,3,5,6,7,8,9)], metric = "gower")))
+gower_features <- as.dist(as.matrix(daisy(t(bluffs[,c(2,3,5,6,7,8,9)]), metric = "gower")))
 
 mds <- gower_samples %>% 
   cmdscale() %>%
@@ -102,11 +104,7 @@ mds <- as.data.frame(mds)
 
 colnames(mds) <- c("Dimension 1", "Dimension 2")
 ggscatter(mds, x = "Dimension 1", y = "Dimension 2", 
-          label = c("Bumpkin 1", "Bumpkin 2", "Gallops 1", "GB 1", "GB 2", "GB 3", "GB 4",
-                        "Georges 1", "Georges 2", "Long 2", "Long 1", "Long 3", "Lovells 1", "Lovells 2",
-                        "Moon 1", "Moon 2", "Peddocks 1", "Peddocks 2", "Peddocks 3", "Peddocks 4",
-                        "Peddocks 5", "Peddocks 6", "Peddocks 7", "Peddocks 8", "Rainsford 1", "Thompson 1",
-                        "Thompson 3", "Thompson 4", "Thompson 2", "Webb 1", "Webb 2"),
+          label = c("Bumpkin 1", "Bumpkin 2", "Gallops 1", "GB 1", "GB 2", "GB 3", "GB 4", "Georges 1", "Georges 2", "Long 2", "Long 1", "Long 3", "Lovells 1", "Lovells 2", "Moon 1", "Moon 2", "Peddocks 1", "Peddocks 2", "Peddocks 3", "Peddocks 4", "Peddocks 5", "Peddocks 6", "Peddocks 7", "Peddocks 8", "Rainsford 1", "Thompson 1", "Thompson 3", "Thompson 4", "Thompson 2", "Webb 1", "Webb 2"),
           font.label = 9,
           size = 1,
           repel = TRUE, 
@@ -123,10 +121,10 @@ ggscatter(mds, x = "Dimension 1", y = "Dimension 2",
 
 We can also use a heatmap to visually identify similarities and dissimilarities between bluffs. In a heatmap cells are color-coded to quickly compare one row or blff to another. The heatmap also allows one to aggregate the rows in clusters based on the distances calculated from @sec-distances. Figure 3 below is the heatmap generated for the 31 bluffs using Gower's distance.
 
-```{r heatmap-plot, echo = FALSE, warning = FALSE, fig.cap="Clustered heatmap of 31 bluffs."}
+```{r heatmap-plot, echo = FALSE, warning = FALSE, fig.cap="Clustered heatmap of 31 bluffs.", out.width="150%"}
 #heatmap
 
-pheatmap(bluffs[,2:9], 
+pheatmap(bluffs[,c(2,3,5,6,7,8,9)], 
                     display_numbers = TRUE, 
                     clustering_distance_rows=gower_samples,
                     clustering_distance_cols=gower_features,
@@ -135,16 +133,21 @@ pheatmap(bluffs[,2:9],
                     cellheight = 5.6,
                     cellwidth = 13.5,
          labels_row = c("Bumpkin 1", "Bumpkin 2", "Gallops 1", "GB 1", "GB 2", "GB 3", "GB 4", "Georges 1", "Georges 2", "Long 2", "Long 1", "Long 3", "Lovells 1", "Lovells 2", "Moon 1", "Moon 2", "Peddocks 1", "Peddocks 2", "Peddocks 3", "Peddocks 4", "Peddocks 5", "Peddocks 6", "Peddocks 7", "Peddocks 8", "Rainsford 1", "Thompson 1", "Thompson 3", "Thompson 4", "Thompson 2", "Webb 1", "Webb 2"),
-         labels_col = c("Orientation", "Retreat Rate", "Wave Height", "Max Wave Height", "Mud Composition",
+         labels_col = c("Orientation", "Retreat Rate", "Max Wave Height", "Mud Composition",
                         "Base Elevation", "Bluff Elevation", "Seawall")
                     )
+
 ```
 
 # Analysis and Conclusion
 
-# Appendix
+From the heatmap in Figure 3, the hierarchical clustering at the lowest level provides around 8 clusters or groups of bluffs. However, when comparing to the multidimensional scaling plot of Figure 2, 8 clear groupings can not be visualized. As a result, we move to a higher hierarchical clustering level where the bluffs are grouped into 3 clusters which more closely corresponds with the groupings from the multidimensional scaling plot. Based on the methods from Section 3, these clusters group the bluffs based on similar retreat rates as well as other characteristics. The groupings of the bluffs can be described below.
 
+* Cluster 1 includes the following bluffs: Georges 1, Georges 2, Rainsford 1, Lovells 2, Long 1, GB 1, GB 3, GB 4, and Gallops 1. Bluffs in this cluster all have a seawall present, have higher maximum wave heights, lower orientation degrees, and higher base elevation levels. Half of the bluffs in this cluster have higher retreat rates while the other half have more medium retreat rates compared to others. 
 
+* Cluster 2 includes the following bluffs: Long 2, Peddocks 1, Peddocks 2, Peddocks 5, Peddocks 6, Peddocks 7, Peddocks 8, Moon 1, Moon 2, Thompson 1, Webb 2, Bumpkin 1, Thompson 2, and Thompson 3. All bluffs in this cluster have lower retreat rates, no seawall present, and lower to medium maximum wave heights. However, these bluffs do have varying orientations, mud compositions, and elevations. 
+
+* Cluster 3 includes the following bluffs: Long 3, GB 2, Peddocks 3, Peddocks 4, Lovells 1, Bumpkin 2, Thompson 4, and Webb 1. This cluster contains bluffs with lower and higher retreat rates as well as lower and higher maximum wave heights. Although Lovells 1, Thompson 4, and Webb 1 have higher retreat rates compared to the other bluffs in this cluster, they share other similar characteristics with the other bluffs. All bluffs in this cluster have orientations facing the Northwest direction and have very similar base elevations. Besides Long 3, all bluffs do not have a seawall present. These bluffs also have a medium mud composition compared to other clusters.
 
 
 
