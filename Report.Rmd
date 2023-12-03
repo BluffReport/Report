@@ -53,25 +53,37 @@ bluffs[,2:8] <- lapply(bluffs[,2:8], stan)
 
 We begin the data exploration by observing the relationship and patterns between the orientation of the bluff and the presence of a seawall with the retreat rates of the bluffs. Figure 1 demonstrates this relationship on a polar plot. \
 
-```{r polar-plot, echo = FALSE, fig.cap="Polar plot of bluff orientation against retreat rate."}
+```{r, fig.width=10, fig.height=8, echo=FALSE}
+ 
 
-data %>% ggplot(aes(orientation, rr, col = as.factor(seawall))) + geom_point(alpha=0.5) +
-  labs(x = "Degree Orientation",
-       y = "Retreat Rate (m/yr)", 
-       title = "Orientation vs. Erosion Rates") +
 
-  #theme_bw() +
-  theme(axis.title = element_text(size = 14),
-        axis.text = element_text(size = 12), 
-        plot.title = element_text(size = 16),
-        legend.text = element_text(size = 12)
-        ) + 
-  scale_color_manual(values = c("#587090", "#ff6380"),
-                    name = "Seawall Presence") +
+ggplot(data, aes(x = orientation, y = rr, color = as.factor(seawall))) +
+  geom_point(size = 3, alpha = 0.6) +
+  scale_color_manual(values = c("#FF6666", "#66B2FF"), name = "Seawall") +
+  labs(x = "Degree Orientation (°)",
+       y = "Retreat rate",
+       title = "Retreat rate from Orientation angle") +
+  theme_minimal(base_size = 12) +
+  theme(axis.title = element_text(size = 14, face = "bold"),
+        axis.text = element_text(size = 12),
+        plot.title = element_text(size = 16, face = "bold"),
+        plot.subtitle = element_text(size = 14),
+        legend.title = element_text(size = 14),
+        legend.text = element_text(size = 12),
+        plot.caption = element_text(size = 10)) +
   coord_polar() +
-  scale_x_continuous(limits = c(0,360),
+   scale_x_continuous(limits = c(0,360),
                      breaks = seq(0, 360, by = 45),
-                     minor_breaks = seq(0, 360, by = 15))
+                     minor_breaks = seq(0, 360, by = 15)) +
+  scale_y_continuous(breaks = seq(min(data$rr), max(data$rr), by = 0.5), 
+                      labels = seq(min(data$rr), max(data$rr), by = 0.5)) +
+  guides(colour = guide_legend(override.aes = list(size=6))) +
+  geom_vline(xintercept = 15, linetype = "dashed", color = "blue") +
+  annotate("text", x = 15, y = max(data$rr), label = "wave height on NNE 15m/s", hjust = 1.1, color = "blue")
+
+
+
+
 ```
 
 
