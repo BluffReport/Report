@@ -5,7 +5,8 @@ author:
   - Supervisor - Professor Masanao Yajima
   - Yingmai Chen, Maysen Pagan, Chang Shi, Yan Wang
 output: 
-  pdf_document:
+  bookdown::pdf_document2:
+    toc: false
     number_sections: true
 ---
 ```{r, echo = FALSE}
@@ -50,41 +51,7 @@ bluffs[,2:8] <- lapply(bluffs[,2:8], stan)
 
 # Exploratory Data Analysis
 
-We begin the data exploration by observing the relationship and patterns between the orientation of the bluff and the presence of a seawall with the retreat rates of the bluffs. Figure 1 demonstrates this relationship on a polar plot. \
-
-
-```{r, fig.width=10, fig.height=8, echo=FALSE}
-data %>% ggplot(aes(orientation, rr, col = as.factor(seawall))) + geom_point(alpha=0.5, size = 3) +
-  labs(x = "Degree Orientation",
-       y = "Retreat Rate (m/yr)", 
-       title = "Orientation vs. Erosion Rates") +
-  theme(axis.title = element_text(size = 14),
-        axis.text = element_text(size = 12), 
-        plot.title = element_text(size = 16),
-        legend.text = element_text(size = 12),
-        legend.position = "none"
-        ) +
-  geom_text(aes(20, 1.5, label = "NNE Waves", color = "black"), size = 5) +
-  scale_color_manual(values = c("#587090", "#ff6380", "red"),
-                    name = "Seawall Presence") +
-  coord_polar() +
-   scale_x_continuous(limits = c(0,360),
-                     breaks = seq(0, 360, by = 45),
-                     minor_breaks = seq(0, 360, by = 15)) +
-  geom_text_repel(aes(label = bluff),
-                  data = subset(data, rr>0.20),
-                  nudge_y       = 1.3 - subset(data, rr>0.20)$rr,
-                  nudge_x       = 13,
-                  box.padding   = 0.35, 
-                  point.padding = 0.5,
-                  segment.color = 'grey50',
-                  segment.size  = 0.2,
-                  size = 4,
-                  ) +
-  geom_vline(xintercept = 22.5, color = "red", linetype = "dashed")
-```
-
-It appears that more bluffs that face East and therefore have lower degrees of orientation also have a seawall present. This intuitively makes sense as those bluffs with lower degrees of orientation face the mouth of the harbor and are more likely to have a seawall with the intentions of preventing erosion. We can also see that those bluffs with orientations less than 180 degrees tend to have higher retreat rates than those bluffs with orientations between 180 and 360 degrees.
+We begin the data exploration by observing the relationship and patterns between each of the variables  with the retreat rates of the bluffs. \ 
 
 ```{r, echo = FALSE, message = FALSE}
 
@@ -103,20 +70,21 @@ ggplot(data, aes(x = `wave.height`, y = `rr`, color = as.factor(seawall))) +
 
 ```
 
-
 From the plot, we can observe a trend indicated by the fitted red line, which suggests a positive correlation between wave height and retreat rate—higher wave heights are associated with higher rates of retreat.
 
 # Models
 
+## Objective 1
+
 The method used to group the bluffs based on similar characteristics and compare susceptibility to erosion involves visualizing a multidimensional scaling plot and heatmap with hierarchical clusterings of the bluffs. These clusters are determined by the "distances" between each bluff.
 
-## Bluff Distances {#sec-distances}
+### Bluff Distances {#sec-distances}
 
 Defining a distance between bluffs provides a measure of dissimilarity between each bluff. Variables for each of the bluffs included seven numerical variables as well as one binary or categorical variable (seawall presence). Not all of the variables are numeric and as a result, the Gower's distance is calculated between two bluffs which accounts for both numerical and categorical variables.
 
 Gower's distance calculates a matrix of dissimilarities for each of the $\frac{n(n-1)}{2} = \frac{31(31-1)}{2} = 465$ pairs of bluffs. This method combines the Manhattan distance for numerical variables and Hamming loss for categorical variables to get the total distance between two observations. For the seven numerical variables, a range-normalized Manhattan distance is calculated: $$|\frac{T_{ik} - T_{jk}}{\text{range}_k}|$$ where $i, j = 1, 2, \dots, 22$ and $k = 1, 2, \dots, 7$. For the remaining categorical variable, the Hamming loss is calculated with the following formula: $$I(T_{i,seawall} \neq T_{j,seawall})$$ where $i, j = 1, 2, \dots, 22$. This indicator will equal 1 if $T_{i,seawall} \neq T_{j,seawall}$ and 0 if $T_{i,seawall} \neq T_{j,seawall}$. Gower's distance between two bluffs is calculated by summing these variable distances and dividing by 8, the total number of variables.
 
-## Multidimensional Scaling
+### Multidimensional Scaling
 
 Once we have the pairwise distances between bluffs from the data, multidimensional scaling provides one method of visualizing the clusters and their distances from each other on a two dimensional plot. Although the data for each bluff is multivariate, multidimensional scaling preserves the distances between pairwise observations when plotting. Multidimensional scaling takes in the calculated distances and returns a set of 31 points where the distances between each point is approximately equal to the dissimilarities between each point. These points are then plotted on a two dimensional scatter plot to visualize the "closeness" of the bluffs and can be viewed in Figure 2.
 
@@ -146,11 +114,11 @@ ggscatter(mds, x = "Dimension 1", y = "Dimension 2",
 
 ```
 
-## Heatmap
+### Heatmap
 
-We can also use a heatmap to visually identify similarities and dissimilarities between bluffs. In a heatmap cells are color-coded to quickly compare one row or blff to another. The heatmap also allows one to aggregate the rows in clusters based on the distances calculated from @sec-distances. Figure 3 below is the heatmap generated for the 31 bluffs using Gower's distance.
+We can also use a heatmap to visually identify similarities and dissimilarities between bluffs. In a heatmap cells are color-coded to quickly compare one row or blff to another. The heatmap also allows one to aggregate the rows in clusters based on the distances calculated from \@ref(sec-distances). Figure 3 below is the heatmap generated for the 31 bluffs using Gower's distance.
 
-```{r heatmap-plot, echo = FALSE, warning = FALSE, fig.cap="Clustered heatmap of 31 bluffs.", out.width="150%"}
+```{r heatmap-plot, echo = FALSE, warning = FALSE, fig.cap="Clustered heatmap of 31 bluffs.", out.width=700}
 #heatmap
 
 pheatmap(bluffs[,c(2,3,5,6,7,8,9)], 
@@ -168,7 +136,45 @@ pheatmap(bluffs[,c(2,3,5,6,7,8,9)],
 
 ```
 
+## Objective 2
+
+To analyze which variables have the largest impact on erosion susceptibility, we will observe the relationships and trends between the variables and measured retreat rates of each bluff. 
+
+```{r polar-plot, fig.width=10, fig.height=8, echo=FALSE, fig.cap = "Polar plot of bluff degree orientation and erosion rates"}
+data %>% ggplot(aes(orientation, rr, col = as.factor(seawall))) + geom_point(alpha=0.5, size = 3) +
+  labs(x = "Degree Orientation",
+       y = "Retreat Rate (m/yr)", 
+       title = "Orientation vs. Erosion Rates") +
+  theme(axis.title = element_text(size = 14),
+        axis.text = element_text(size = 12), 
+        plot.title = element_text(size = 16),
+        legend.text = element_text(size = 12)
+        ) +
+  annotate("text", x = 20, y = 1.5, label = "NNE Waves", size = 5, color = "red") +
+  scale_color_manual(values = c("#587090", "#ff6380"),
+                    name = "Seawall Presence") +
+  coord_polar() +
+   scale_x_continuous(limits = c(0,360),
+                     breaks = seq(0, 360, by = 45),
+                     minor_breaks = seq(0, 360, by = 15)) +
+  geom_text_repel(aes(label = bluff),
+                  data = subset(data, rr>0.20),
+                  nudge_y       = 1.3 - subset(data, rr>0.20)$rr,
+                  nudge_x       = 13,
+                  box.padding   = 0.35, 
+                  point.padding = 0.5,
+                  segment.color = 'grey50',
+                  segment.size  = 0.2,
+                  size = 4,
+                  ) +
+  geom_vline(xintercept = 22.5, color = "red", linetype = "dashed")
+```
+
+Figure \@ref(fig:polar-plot) demonstrates that more bluffs that face East and therefore have lower degrees of orientation also have a seawall present. This intuitively makes sense as those bluffs with lower degrees of orientation face the mouth of the harbor and are more likely to have a seawall with the intentions of preventing erosion. We can also see that those bluffs with orientations less than 180 degrees tend to have higher retreat rates than those bluffs with orientations between 180 and 360 degrees. Furthermore, the bluffs with a seawall present are indicated by pink points and these bluffs can be seen as having higher retreat rates than those bluffs without seawalls. 
+
 # Analysis and Conclusion
+
+## Objective 1
 
 From the heatmap in Figure 3, the hierarchical clustering at the lowest level provides around 8 clusters or groups of bluffs. However, when comparing to the multidimensional scaling plot of Figure 2, 8 clear groupings can not be visualized. As a result, we move to a higher hierarchical clustering level where the bluffs are grouped into 3 clusters which more closely corresponds with the groupings from the multidimensional scaling plot. Based on the methods from Section 3, these clusters group the bluffs based on similar retreat rates as well as other characteristics. The groupings of the bluffs can be described below.
 
@@ -178,7 +184,7 @@ From the heatmap in Figure 3, the hierarchical clustering at the lowest level pr
 
 * Cluster 3 includes the following bluffs: Long 3, GB 2, Peddocks 3, Peddocks 4, Lovells 1, Bumpkin 2, Thompson 4, and Webb 1. This cluster contains bluffs with lower and higher retreat rates as well as lower and higher maximum wave heights. Although Lovells 1, Thompson 4, and Webb 1 have higher retreat rates compared to the other bluffs in this cluster, they share other similar characteristics with the other bluffs. All bluffs in this cluster have orientations facing the Northwest direction and have very similar base elevations. Besides Long 3, all bluffs do not have a seawall present. These bluffs also have a medium mud composition compared to other clusters.
 
-
+## Objective 2
 
 
 
