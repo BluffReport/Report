@@ -9,6 +9,7 @@ output:
     toc: false
     number_sections: true
 ---
+
 ```{r, echo = FALSE}
 #libraries
 suppressPackageStartupMessages(library(tidyverse))
@@ -51,17 +52,46 @@ bluffs[,2:8] <- lapply(bluffs[,2:8], stan)
 
 # Exploratory Data Analysis
 
-We begin the data exploration by observing the relationship and patterns between each of the variables  with the retreat rates of the bluffs. \ 
+We begin the data exploration by observing the relationship and patterns between each of the variables  with the retreat rates of the bluffs. 
+
+```{r, echo = FALSE, message = FALSE}
+ggplot(data, aes(x = `max.wave.height`, y = `rr`, color = as.factor(seawall))) +
+  geom_point(size = 3, alpha = 0.6) +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  scale_color_manual(values = c("#FF6666", "#66B2FF"), name = "Seawall") +
+  labs(title = "Scatter Plot of Max Wave Height  vs. Retreat Rate",
+       x = " Max Wave Height(m) ", 
+       y = "Retreat Rate (m/yr)") +
+  theme_minimal() +
+  theme(legend.title = element_text(size = 12),
+        legend.text = element_text(size = 10))
+```
 
 ```{r, echo = FALSE, message = FALSE}
 
 
-ggplot(data, aes(x = `wave.height`, y = `rr`, color = as.factor(seawall))) +
+ggplot(data, aes(x = `mud.comp`, y = `rr`, color = as.factor(seawall))) +
   geom_point(size = 3, alpha = 0.6) +
   geom_smooth(method = "lm", color = "red", se = FALSE) +
   scale_color_manual(values = c("#FF6666", "#66B2FF"), name = "Seawall") +
-  labs(title = "Scatter Plot of Wave Height for NNE wind 15 m/s vs. Retreat Rate",
-       x = "Wave Height for NNE wind 15 m/s (m)", 
+  labs(title = "Scatter Plot of Mud Rate vs. Retreat Rate",
+       x = " Mud(%)", 
+       y = "Retreat Rate (m/yr)") +
+  theme_minimal() +
+  theme(legend.title = element_text(size = 12),
+        legend.text = element_text(size = 10))
+
+
+```
+```{r, echo = FALSE, message = FALSE}
+
+
+ggplot(data, aes(x = `base.el`, y = `rr`, color = as.factor(seawall))) +
+  geom_point(size = 3, alpha = 0.6) +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  scale_color_manual(values = c("#FF6666", "#66B2FF"), name = "Seawall") +
+  labs(title = "Scatter Plot of Base Elevation vs. Retreat Rate",
+       x = " Base Elevation(m)", 
        y = "Retreat Rate (m/yr)") +
   theme_minimal() +
   theme(legend.title = element_text(size = 12),
@@ -70,7 +100,22 @@ ggplot(data, aes(x = `wave.height`, y = `rr`, color = as.factor(seawall))) +
 
 ```
 
-From the plot, we can observe a trend indicated by the fitted red line, which suggests a positive correlation between wave height and retreat rate—higher wave heights are associated with higher rates of retreat.
+```{r, echo = FALSE, message = FALSE}
+
+
+ggplot(data, aes(x = `bluff.el`, y = `rr`, color = as.factor(seawall))) +
+  geom_point(size = 3, alpha = 0.6) +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  scale_color_manual(values = c("#FF6666", "#66B2FF"), name = "Seawall") +
+  labs(title = "Scatter Plot of Bluff Elevation vs. Retreat Rate",
+       x = " Bluff Elevation(m)", 
+       y = "Retreat Rate (m/yr)") +
+  theme_minimal() +
+  theme(legend.title = element_text(size = 12),
+        legend.text = element_text(size = 10))
+
+
+```
 
 # Models
 
