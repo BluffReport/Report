@@ -130,7 +130,7 @@ From the heatmap in Figure 3, the hierarchical clustering at the lowest level pr
 
 To analyze which variables have the largest impact on erosion susceptibility, we will observe the relationships and trends between the variables and measured retreat rates of each bluff. 
 
-```{r polar-plot, fig.width=10, fig.height=8, echo=FALSE, fig.cap = "Polar plot of bluff degree orientation and erosion rates"}
+```{r polar-plot, fig.width=9, fig.height=7, echo=FALSE, fig.cap = "Polar plot of bluff degree orientation and erosion rates", fig.align = "center"}
 data %>% ggplot(aes(orientation, rr, col = as.factor(seawall))) + geom_point(alpha=0.5, size = 3) +
   labs(x = "Degree Orientation",
        y = "Retreat Rate (m/yr)", 
@@ -160,22 +160,26 @@ data %>% ggplot(aes(orientation, rr, col = as.factor(seawall))) + geom_point(alp
         )
 ```
 
-### Analysis
-
-Figure \@ref(fig:polar-plot) demonstrates that more bluffs that face East and therefore have lower degrees of orientation also have a seawall present. This intuitively makes sense as those bluffs with lower degrees of orientation face the mouth of the harbor and are more likely to have a seawall with the intentions of preventing erosion. We can also see that those bluffs with orientations less than 180 degrees tend to have higher retreat rates than those bluffs with orientations between 180 and 360 degrees. Furthermore, the bluffs with a seawall present are indicated by pink points and these bluffs can be seen as having higher retreat rates than those bluffs without seawalls. 
-
-## other findings
-```{r box-plot, echo = FALSE, message = FALSE, fig.cap = "box plot of bluff seawall and retreat rates",warning=FALSE}
+```{r box-plot, echo = FALSE, message = FALSE, fig.cap = "Box plot of seawall presence and retreat rates", warning=FALSE, out.width = 400, fig.align = "center"}
 ggplot(bluffs, aes(x = factor(seawall), y = `rr`)) +
   geom_boxplot() +
   stat_summary(fun = mean, geom = "point", shape = 20, size = 3, color = "blue") +
   stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 2)), vjust = -1) +
-  labs(title = "Effect of Seawall on RR (m/yr)", x = "Seawall", y = "Reatreat rate (m/yr)")
+  labs(title = "Effect of Seawall on RR (m/yr)", x = "Seawall", y = "Reatreat rate (m/yr)") +
+  theme(axis.title = element_text(size = 14),
+        axis.text = element_text(size = 12), 
+        plot.title = element_text(size = 16),
+        legend.text = element_text(size = 12)
+        )
 ```
 
 ### Analysis
 
-Figure \@ref(fig:box-plot) demonstrates that the box for the group with a seawall is larger, indicating that the retreat rate values in this group vary more than those in the group without a seawall.The wider range of retreat rate values in the presence of a seawall could suggest that other factors might have a larger impact on retreat rates when seawalls are present.
+Figure \@ref(fig:polar-plot) demonstrates that more bluffs that face East and therefore have lower degrees of orientation also have a seawall present. This intuitively makes sense as those bluffs with lower degrees of orientation face the mouth of the harbor and are more likely to have a seawall with the intentions of preventing erosion. We can also see that those bluffs with orientations less than 180 degrees tend to have higher retreat rates than those bluffs with orientations between 180 and 360 degrees. Furthermore, the bluffs with a seawall present are indicated by pink points and these bluffs can be seen as having higher retreat rates than those bluffs without seawalls. 
+
+Figure \@ref(fig:box-plot) demonstrates that the inner quartile range of the boxplot for bluffs with a seawall is wider, indicating that the retreat rate values for bluffs with seawalls vary more than those bluffs without a seawall. The wider range of retreat rate values in the presence of a seawall could suggest that other factors might have a contributing impact on retreat rates when seawalls are present.
+
+From these visualizations, it can be deduced that fitting a regression model to the data may be unreliable. The assumption of independent bluff observations appears to be violated. Many bluffs in close proximity to one another on one island suggests that the variables measured may be correlated and not independent. Fitting a regression to determine the significance of certain variables on retreat rate would then produce unreliable and inaccurate results. The appendix further shows each variable's random relationship with retreat rate.
 
 \newpage
 
